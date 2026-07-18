@@ -767,50 +767,30 @@ form.addEventListener('submit', function(e){
 </script>
 
 <script>
-/* ✦ Golden starfield — soft twinkle + slow drift, performant (sprite + drawImage) */
+/* ✦ Static golden starry sky — drawn once, no animation */
 (function(){
   var c = document.getElementById('starfield'); if(!c) return;
   var ctx = c.getContext('2d');
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var stars = [], W = 0, H = 0, raf = 0;
-  // pre-render one soft gold star sprite (cheap to draw many times)
-  var S = 28, spr = document.createElement('canvas'); spr.width = spr.height = S;
-  var g = spr.getContext('2d').createRadialGradient(S/2,S/2,0, S/2,S/2,S/2);
-  g.addColorStop(0,'rgba(255,230,165,1)'); g.addColorStop(.35,'rgba(245,193,92,.55)'); g.addColorStop(1,'rgba(245,193,92,0)');
-  var sg = spr.getContext('2d'); sg.fillStyle = g; sg.fillRect(0,0,S,S);
-  function build(){
-    W = c.width = window.innerWidth; H = c.height = window.innerHeight;
-    var n = Math.round(Math.min(80, W*H/14000)); stars = [];
-    for(var i=0;i<n;i++) stars.push({
-      x:Math.random()*W, y:Math.random()*H, sz:Math.random()*11+4,
-      base:Math.random()*.45+.2, amp:Math.random()*.4+.2,
-      ph:Math.random()*6.283, tw:Math.random()*.0009+.0004,
-      dx:(Math.random()-.5)*.03, dy:(Math.random()-.5)*.03
-    });
-  }
-  function frame(t){
+  var DPR = Math.min(window.devicePixelRatio || 1, 2), W = 0, H = 0;
+  function draw(){
+    W = window.innerWidth; H = window.innerHeight;
+    c.width = W*DPR; c.height = H*DPR; c.style.width = W+'px'; c.style.height = H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
     ctx.clearRect(0,0,W,H);
-    for(var i=0;i<stars.length;i++){ var s = stars[i];
-      var op = s.base + s.amp*Math.sin(s.ph + t*s.tw); if(op<0)op=0; else if(op>1)op=1;
-      s.x += s.dx; s.y += s.dy;
-      if(s.x<-S)s.x=W+S; else if(s.x>W+S)s.x=-S;
-      if(s.y<-S)s.y=H+S; else if(s.y>H+S)s.y=-S;
-      ctx.globalAlpha = op; ctx.drawImage(spr, s.x-s.sz/2, s.y-s.sz/2, s.sz, s.sz);
+    var n = Math.round(W*H/2500); // dense, real-sky scatter
+    for(var i=0;i<n;i++){
+      var x = Math.random()*W, y = Math.random()*H, t = Math.random();
+      // mostly tiny & faint, a few bigger & brighter — like a real sky
+      var rad = t<0.80 ? Math.random()*0.7+0.35 : (t<0.96 ? Math.random()*0.6+0.9 : Math.random()*0.7+1.5);
+      var op  = t<0.80 ? Math.random()*0.30+0.12 : (t<0.96 ? Math.random()*0.30+0.38 : Math.random()*0.25+0.6);
+      ctx.beginPath();
+      ctx.arc(x, y, rad, 0, 6.2832);
+      ctx.fillStyle = (Math.random()<0.14) ? 'rgba(255,245,220,'+op+')' : 'rgba(244,200,108,'+op+')';
+      ctx.fill();
     }
-    ctx.globalAlpha = 1; raf = requestAnimationFrame(frame);
   }
-  build(); window.addEventListener('resize', build);
-  if(reduce){
-    ctx.clearRect(0,0,W,H);
-    for(var i=0;i<stars.length;i++){ var s=stars[i]; ctx.globalAlpha=s.base; ctx.drawImage(spr, s.x-s.sz/2, s.y-s.sz/2, s.sz, s.sz); }
-    ctx.globalAlpha = 1;
-  } else {
-    raf = requestAnimationFrame(frame);
-    document.addEventListener('visibilitychange', function(){
-      if(document.hidden){ cancelAnimationFrame(raf); raf = 0; }
-      else if(!raf){ raf = requestAnimationFrame(frame); }
-    });
-  }
+  draw();
+  window.addEventListener('resize', draw);
 })();
 </script>
 </body>
