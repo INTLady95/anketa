@@ -215,6 +215,8 @@
       <p class="hint" data-i18n="hero.hint"></p>
     </header>
 
+    <p class="warn" data-i18n="ui.warn"></p>
+
     <!-- 1 -->
     <section class="card" id="s1">
       <div class="sec-head"><span class="sec-num">1</span><h2 data-i18n="s1.title"></h2></div>
@@ -263,9 +265,9 @@
         <div class="entry exp-entry">
           <button type="button" class="entry-remove" aria-label="remove">✕</button>
           <div class="entry-title"><span data-i18n="s3.entry"></span> <b class="entry-n">1</b></div>
-          <div class="field"><label class="q" data-i18n="s3.q_name"></label><input type="text" data-name="Компания или проект" data-req></div>
-          <div class="field"><label class="q" data-i18n="s3.q_role"></label><input type="text" data-name="Должность, период, город" data-i18n-ph="s3.role_ph" data-req></div>
-          <div class="field"><label class="q" data-i18n="s3.q_ach"></label><textarea data-name="Главные результаты" style="min-height:96px" data-req></textarea></div>
+          <div class="field"><label class="q" data-i18n="s3.q_name"></label><input type="text" data-name="Компания или проект" data-req data-reqfirst></div>
+          <div class="field"><label class="q" data-i18n="s3.q_role"></label><input type="text" data-name="Должность, период, город" data-i18n-ph="s3.role_ph" data-req data-reqfirst></div>
+          <div class="field"><label class="q" data-i18n="s3.q_ach"></label><textarea data-name="Главные результаты" style="min-height:96px" data-req data-reqfirst></textarea></div>
           <div class="field"><label class="q" data-i18n="s3.q_duties"></label><textarea data-name="Чем занимались"></textarea></div>
           <div class="field"><label class="q" data-i18n="s3.q_tools"></label><input type="text" data-name="Программы и инструменты"></div>
         </div>
@@ -353,7 +355,6 @@
     </section>
 
     <div class="submit-row">
-      <p class="warn" data-i18n="ui.warn"></p>
       <button type="submit" class="send" id="send-btn" data-i18n="ui.submit"></button>
       <p class="privacy" data-i18n="ui.privacy"></p>
       <div id="err"></div>
@@ -659,7 +660,11 @@ function refreshEntries(listId){
   entries.forEach(function(en,i){
     var n = en.querySelector('.entry-n'); if(n) n.textContent = (i+1);
     var rm = en.querySelector('.entry-remove'); if(rm) rm.style.display = entries.length>1 ? 'block' : 'none';
+    en.querySelectorAll('[data-reqfirst]').forEach(function(f){
+      if(i===0) f.setAttribute('data-req',''); else f.removeAttribute('data-req');
+    });
   });
+  updateProgress();
 }
 function bindRemoves(list){
   list.querySelectorAll('.entry-remove').forEach(function(btn){
