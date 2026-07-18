@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -187,8 +187,8 @@
 
 <div id="controls">
   <div class="grp" id="langs">
-    <button class="langbtn active" data-lang="ru">RU</button>
-    <button class="langbtn" data-lang="en">EN</button>
+    <button class="langbtn" data-lang="ru">RU</button>
+    <button class="langbtn active" data-lang="en">EN</button>
     <button class="langbtn" data-lang="pl">PL</button>
   </div>
   <button id="theme-btn" title="Светлая тема">☀</button>
@@ -378,7 +378,7 @@ var T = {
  ru:{
   "hero.h1":"Анкета для вашего портфолио",
   "hero.lede":"Пишите просто, своими словами — можно коротко. Чем конкретнее ответ (особенно цифры), тем сильнее результат. Обязательные вопросы помечены <b>✦</b>, остальное — по желанию.",
-  "hero.hint":"Заполнение — около <b>10–15 минут</b>. Можно отвечать по пунктам.",
+  "hero.hint":"Заполняйте спокойно, в своём темпе — можно отвечать по пунктам.",
   "tag.all":"нужно всем","tag.portfolio":"для портфолио","tag.pf_li":"портфолио и LinkedIn","tag.business":"если про бизнес",
   "s2.purpose":"Это ваши контакты и первая строка-представление — они идут в самый верх резюме и портфолио.",
   "s3.purpose":"Главный раздел резюме и портфолио. Каждое место работы станет отдельной карточкой с вашими результатами. Мест может быть сколько угодно — добавляйте кнопкой ниже.",
@@ -422,7 +422,7 @@ var T = {
  en:{
   "hero.h1":"Questionnaire for your portfolio",
   "hero.lede":"Write simply, in your own words — short is fine. The more specific your answer (especially numbers), the stronger the result. Required questions are marked <b>✦</b>, the rest is optional.",
-  "hero.hint":"Takes about <b>10–15 minutes</b>. Bullet points are fine.",
+  "hero.hint":"Take your time, at your own pace — bullet points are perfectly fine.",
   "tag.all":"everyone","tag.portfolio":"for portfolio","tag.pf_li":"portfolio & LinkedIn","tag.business":"if about a business",
   "s2.purpose":"These are your contacts and your one-line intro — they go right at the top of the résumé and portfolio.",
   "s3.purpose":"The main section of the résumé and portfolio. Each job becomes its own card with your results. Add as many jobs as you like — use the button below.",
@@ -466,7 +466,7 @@ var T = {
  pl:{
   "hero.h1":"Ankieta do Twojego portfolio",
   "hero.lede":"Pisz prosto, własnymi słowami — krótko też może być. Im konkretniejsza odpowiedź (zwłaszcza liczby), tym mocniejszy efekt. Pytania obowiązkowe oznaczono <b>✦</b>, reszta — opcjonalnie.",
-  "hero.hint":"Zajmuje około <b>10–15 minut</b>. Można odpowiadać w punktach.",
+  "hero.hint":"Wypełniaj spokojnie, we własnym tempie — można odpowiadać w punktach.",
   "tag.all":"dla wszystkich","tag.portfolio":"do portfolio","tag.pf_li":"portfolio i LinkedIn","tag.business":"jeśli o firmie",
   "s2.purpose":"To Twoje kontakty i pierwsza linijka-przedstawienie — trafiają na samą górę CV i portfolio.",
   "s3.purpose":"Główna sekcja CV i portfolio. Każde miejsce pracy stanie się osobną kartą z Twoimi wynikami. Może być ich dowolnie wiele — dodawaj przyciskiem poniżej.",
@@ -517,9 +517,9 @@ var NAV = {
 var SECTIONS = ['s1','s2','s3','s4','s5','s6','s7','s8','s9'];
 
 /* ============ language ============ */
-var lang = 'ru';
+var lang = 'en';
 function applyLang(l){
-  lang = (T[l] ? l : 'ru');
+  lang = (T[l] ? l : 'en');
   document.documentElement.lang = lang;
   var dict = T[lang];
   document.querySelectorAll('[data-i18n]').forEach(function(el){
@@ -758,7 +758,7 @@ form.addEventListener('submit', function(e){
   var st=null, sl=null;
   try{ st = localStorage.getItem('anketa-theme'); sl = localStorage.getItem('anketa-lang'); }catch(e){}
   applyTheme(st === 'light' ? 'light' : 'dark');
-  applyLang(sl && T[sl] ? sl : 'ru');
+  applyLang(sl && T[sl] ? sl : 'en');
   applyConditional();
 })();
 </script>
