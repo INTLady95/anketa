@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Анкета · Tatsiana Zhukavets</title>
+<style>
+  /* ===== DARK NEON (default) ===== */
+  :root{
+    --bg:#06030f; --bg-deep:#140c26; --bg-alt:#0c0719;
+    --ink:#ded7ee; --ink-soft:#b9b1d6; --muted:#837b9f;
+    --gold:#f5c15c; --gold-deep:#c9922c; --accent-soft:#ffd98a;
+    --cyan:#34e5ff; --violet:#a78bfa;
+    --field-bg:rgba(6,3,15,.6); --field-border:rgba(255,255,255,.09);
+    --card-a:rgba(20,12,38,.94); --card-b:rgba(12,7,25,.94);
+    --line:rgba(245,193,92,.16); --line-soft:rgba(167,139,250,.14);
+    --drawer-bg:rgba(10,6,20,.97);
+    --glow:radial-gradient(1200px 600px at 12% -8%, rgba(124,58,237,.18), transparent 60%),
+           radial-gradient(900px 500px at 100% 0%, rgba(52,229,255,.08), transparent 55%);
+    --shadow:0 20px 50px -30px rgba(0,0,0,.9);
+    --radius:16px;
+  }
+  /* ===== LIGHT — KAUN GOLD ===== */
+  body.light{
+    --bg:#eadfc4; --bg-deep:#f4ead2; --bg-alt:#e0d1ac;
+    --ink:#3a2c12; --ink-soft:#6b5834; --muted:#94805a;
+    --gold:#9c6b10; --gold-deep:#75500a; --accent-soft:#b98a2a;
+    --cyan:#0e7d8f; --violet:#7d54c9;
+    --field-bg:rgba(255,252,245,.75); --field-border:rgba(124,84,12,.28);
+    --card-a:rgba(255,251,243,.96); --card-b:rgba(244,234,210,.96);
+    --line:rgba(124,84,12,.26); --line-soft:rgba(124,84,12,.15);
+    --drawer-bg:rgba(245,237,218,.98);
+    --glow:radial-gradient(1100px 560px at 12% -8%, rgba(217,180,94,.35), transparent 60%),
+           radial-gradient(900px 500px at 100% 0%, rgba(176,138,224,.12), transparent 55%);
+    --shadow:0 20px 44px -28px rgba(124,84,12,.5);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--glow), var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased; transition:background .4s, color .4s;
+  }
+  ::selection{background:rgba(245,193,92,.28)}
+
+  /* thin progress bar only (no chips) */
+  #progress-wrap{position:sticky; top:0; z-index:30; height:4px; background:rgba(128,128,128,.18)}
+  #progress{height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--accent-soft),var(--cyan)); transition:width .3s ease}
+
+  /* floating controls: theme + langs */
+  #controls{position:fixed; top:14px; right:14px; z-index:40; display:flex; gap:6px; align-items:center}
+  #controls .grp{display:flex; gap:2px; background:var(--card-a); border:1px solid var(--line-soft);
+    border-radius:999px; padding:3px; box-shadow:var(--shadow)}
+  .langbtn{font:inherit; font-size:.74rem; font-weight:600; letter-spacing:.03em; color:var(--muted);
+    background:none; border:none; cursor:pointer; padding:5px 10px; border-radius:999px; transition:.2s}
+  .langbtn:hover{color:var(--ink)}
+  .langbtn.active{background:linear-gradient(180deg,var(--accent-soft),var(--gold)); color:#1a1206}
+  #theme-btn{font-size:1rem; width:34px; height:34px; border-radius:999px; cursor:pointer; line-height:1;
+    color:var(--ink); background:var(--card-a); border:1px solid var(--line-soft); box-shadow:var(--shadow); transition:.2s}
+  #theme-btn:hover{border-color:var(--gold)}
+
+  /* ===== side drawer nav ===== */
+  #menu-btn{position:fixed; left:16px; bottom:16px; z-index:45; display:flex; align-items:center; gap:8px;
+    font:inherit; font-size:.9rem; font-weight:600; color:#1a1206; cursor:pointer;
+    background:linear-gradient(180deg,var(--accent-soft),var(--gold)); border:none;
+    padding:12px 18px 12px 16px; border-radius:999px; box-shadow:0 14px 30px -10px rgba(0,0,0,.55); transition:transform .15s}
+  #menu-btn:hover{transform:translateY(-2px)}
+  #menu-btn .ico{font-size:1.1rem; line-height:1}
+  #drawer-backdrop{position:fixed; inset:0; z-index:48; background:rgba(2,1,8,.55); backdrop-filter:blur(3px);
+    opacity:0; visibility:hidden; transition:opacity .28s, visibility .28s}
+  #drawer-backdrop.open{opacity:1; visibility:visible}
+  #drawer{position:fixed; top:0; left:0; bottom:0; z-index:49; width:min(82vw,290px);
+    background:var(--drawer-bg); border-right:1px solid var(--line); box-shadow:24px 0 60px -30px rgba(0,0,0,.9);
+    transform:translateX(-100%); transition:transform .3s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column;
+    backdrop-filter:blur(16px)}
+  #drawer.open{transform:translateX(0)}
+  #drawer-head{padding:22px 22px 14px; border-bottom:1px solid var(--line-soft)}
+  #drawer-head .dt{font-family:Georgia,serif; font-size:1.05rem; color:var(--gold); margin:0}
+  #drawer-head .dp{font-size:.8rem; color:var(--muted); margin:6px 0 0}
+  #drawer-nav{flex:1; overflow-y:auto; padding:12px 12px 22px}
+  .navlink{display:flex; align-items:center; gap:12px; width:100%; text-align:left; font:inherit; font-size:.95rem;
+    color:var(--ink-soft); background:none; border:none; cursor:pointer; padding:11px 12px; border-radius:11px; transition:.18s}
+  .navlink:hover{background:var(--field-bg); color:var(--ink)}
+  .navlink.active{background:linear-gradient(90deg,color-mix(in srgb,var(--gold) 22%,transparent),transparent); color:var(--ink)}
+  .navnum{flex:none; width:26px; height:26px; border-radius:8px; display:grid; place-items:center; font-size:.82rem; font-weight:700;
+    color:var(--bg); background:linear-gradient(180deg,var(--accent-soft),var(--gold-deep))}
+  #drawer-close{position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:999px; cursor:pointer;
+    background:var(--field-bg); border:1px solid var(--field-border); color:var(--ink); font-size:1rem; line-height:1}
+
+  .wrap{max-width:760px; margin:0 auto; padding:40px 22px 120px}
+  header.hero{text-align:center; margin-bottom:8px}
+  .kicker{font-size:.72rem; letter-spacing:.32em; text-transform:uppercase; color:var(--gold);
+    display:inline-block; padding:6px 16px; border:1px solid var(--line); border-radius:999px; margin-bottom:20px}
+  h1{font-family:Georgia,"Times New Roman",serif; font-weight:500; font-size:clamp(2rem,6vw,3rem);
+    margin:.1em 0 .3em; letter-spacing:.01em;
+    background:linear-gradient(180deg,var(--ink),var(--accent-soft) 55%,var(--gold-deep));
+    -webkit-background-clip:text; background-clip:text; color:transparent}
+  .lede{color:var(--ink-soft); font-size:1.02rem; max-width:58ch; margin:0 auto}
+  .hint{color:var(--muted); font-size:.9rem; margin-top:14px}
+  .hint b{color:var(--gold)}
+
+  section.card{background:linear-gradient(180deg,var(--card-a),var(--card-b));
+    border:1px solid var(--line-soft); border-radius:var(--radius);
+    padding:26px 24px; margin-top:22px; box-shadow:var(--shadow); scroll-margin-top:70px}
+  section.card.hidden{display:none}
+  .sec-head{display:flex; align-items:center; gap:12px; margin:-2px 0 4px; flex-wrap:wrap}
+  .sec-num{font-family:Georgia,serif; font-size:1rem; color:var(--bg);
+    background:linear-gradient(180deg,var(--accent-soft),var(--gold-deep));
+    width:30px; height:30px; border-radius:9px; display:grid; place-items:center; flex:none; font-weight:700}
+  .sec-head h2{font-size:1.16rem; margin:0; font-weight:600}
+  .sec-desc{color:var(--muted); font-size:.88rem; margin:4px 0 18px}
+  .tag{font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--violet);
+    border:1px solid var(--line-soft); border-radius:6px; padding:2px 7px; white-space:nowrap}
+
+  .field{margin-bottom:18px}
+  .field:last-child{margin-bottom:0}
+  label.q{display:block; font-size:.95rem; color:var(--ink); margin-bottom:8px}
+  label.q .req{color:var(--gold); margin-left:2px}
+  label.q .sub{display:block; color:var(--muted); font-size:.82rem; margin-top:3px; font-weight:400}
+  label.q b{color:var(--gold)}
+
+  input[type=text],input[type=email],input[type=tel],textarea{
+    width:100%; background:var(--field-bg); border:1px solid var(--field-border);
+    border-radius:11px; color:var(--ink); font:inherit; font-size:.96rem; padding:11px 13px; transition:border-color .2s, box-shadow .2s}
+  textarea{resize:vertical; min-height:74px}
+  input:focus,textarea:focus{outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(245,193,92,.14)}
+  input::placeholder,textarea::placeholder{color:var(--muted); opacity:.75}
+
+  .checks{display:grid; gap:10px}
+  .check{display:flex; align-items:flex-start; gap:11px; background:var(--field-bg);
+    border:1px solid var(--field-border); border-radius:11px; padding:12px 14px; cursor:pointer; transition:.2s}
+  .check:hover{border-color:var(--gold)}
+  .check input{accent-color:var(--gold); width:18px; height:18px; margin-top:2px; flex:none}
+  .check span{font-size:.95rem}
+  .repeat-note{font-size:.82rem; color:var(--cyan); background:color-mix(in srgb, var(--cyan) 12%, transparent);
+    border:1px solid color-mix(in srgb, var(--cyan) 40%, transparent); border-radius:9px; padding:9px 12px; margin-bottom:16px}
+
+  /* purpose note — explains where an answer ends up */
+  .purpose{font-size:.85rem; color:var(--cyan); background:color-mix(in srgb,var(--cyan) 9%, transparent);
+    border-left:3px solid color-mix(in srgb,var(--cyan) 55%, transparent); border-radius:0 9px 9px 0;
+    padding:9px 13px; margin:0 0 16px}
+
+  /* repeatable entry cards (work / projects) */
+  .entry{position:relative; border:1px dashed var(--field-border); border-radius:12px;
+    padding:18px 16px 4px; margin-bottom:14px; background:color-mix(in srgb,var(--field-bg) 55%, transparent)}
+  .entry-title{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-bottom:14px}
+  .entry-title b{color:var(--ink)}
+  .entry-remove{position:absolute; top:10px; right:10px; width:28px; height:28px; border-radius:999px; cursor:pointer;
+    background:var(--field-bg); border:1px solid var(--field-border); color:var(--muted); font-size:.78rem; line-height:1; transition:.2s}
+  .entry-remove:hover{border-color:#e05555; color:#e05555}
+  .add-btn{display:inline-flex; align-items:center; gap:8px; font:inherit; font-size:.9rem; font-weight:600; cursor:pointer;
+    color:var(--gold); background:var(--field-bg); border:1px dashed var(--gold); border-radius:11px; padding:11px 18px; transition:.2s}
+  .add-btn:hover{background:color-mix(in srgb,var(--gold) 12%, transparent); transform:translateY(-1px)}
+
+  .submit-row{margin-top:30px; text-align:center}
+  .warn{max-width:44ch; margin:0 auto 18px; padding:12px 16px; font-size:.9rem; line-height:1.45;
+    color:var(--ink); background:color-mix(in srgb, var(--gold) 14%, transparent);
+    border:1px solid var(--line); border-radius:12px}
+  button.send{font:inherit; font-size:1.02rem; font-weight:600; color:#1a1206; cursor:pointer;
+    background:linear-gradient(180deg,var(--accent-soft),var(--gold)); border:none;
+    padding:15px 44px; border-radius:999px; letter-spacing:.02em;
+    box-shadow:0 14px 34px -12px rgba(245,193,92,.55); transition:transform .15s, box-shadow .15s}
+  button.send:hover{transform:translateY(-2px); box-shadow:0 20px 40px -12px rgba(245,193,92,.65)}
+  button.send:disabled{opacity:.6; cursor:wait; transform:none}
+  .privacy{color:var(--muted); font-size:.8rem; margin-top:14px}
+
+  #done{display:none; text-align:center; padding:70px 20px}
+  #done .mark{font-size:3rem; color:var(--gold)}
+  #done h2{font-family:Georgia,serif; font-weight:500; font-size:2rem; margin:.4em 0 .3em;
+    background:linear-gradient(180deg,var(--ink),var(--accent-soft));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #done p{color:var(--ink-soft)}
+  #err{display:none; color:#c0392b; background:rgba(255,80,80,.1); border:1px solid rgba(255,80,80,.3);
+    border-radius:11px; padding:14px 16px; margin-top:18px; font-size:.9rem; text-align:center}
+  #err a{color:var(--gold)}
+
+  #totop{position:fixed; right:16px; bottom:16px; z-index:44; width:46px; height:46px; border-radius:999px;
+    border:1px solid var(--line); background:linear-gradient(180deg,var(--accent-soft),var(--gold)); color:#1a1206;
+    font-size:1.2rem; cursor:pointer; display:none; place-items:center; box-shadow:0 12px 28px -10px rgba(0,0,0,.6)}
+  #totop.show{display:grid}
+
+  footer{text-align:center; color:var(--muted); font-size:.8rem; margin-top:40px}
+  footer .name{color:var(--gold); letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div id="progress-wrap"><div id="progress"></div></div>
+
+<div id="controls">
+  <div class="grp" id="langs">
+    <button class="langbtn active" data-lang="ru">RU</button>
+    <button class="langbtn" data-lang="en">EN</button>
+    <button class="langbtn" data-lang="pl">PL</button>
+  </div>
+  <button id="theme-btn" title="Светлая тема">☀</button>
+</div>
+
+<!-- side drawer -->
+<button id="menu-btn"><span class="ico">☰</span><span data-i18n="ui.menu"></span></button>
+<div id="drawer-backdrop"></div>
+<aside id="drawer">
+  <button id="drawer-close" aria-label="×">✕</button>
+  <div id="drawer-head">
+    <p class="dt" data-i18n="ui.menu"></p>
+    <p class="dp" data-i18n="hero.hint"></p>
+  </div>
+  <nav id="drawer-nav"></nav>
+</aside>
+
+<div class="wrap">
+  <form id="anketa" novalidate>
+    <header class="hero">
+      <span class="kicker">Portfolio · CV · LinkedIn</span>
+      <h1 data-i18n="hero.h1"></h1>
+      <p class="lede" data-i18n="hero.lede"></p>
+      <p class="hint" data-i18n="hero.hint"></p>
+    </header>
+
+    <!-- 1 -->
+    <section class="card" id="s1">
+      <div class="sec-head"><span class="sec-num">1</span><h2 data-i18n="s1.title"></h2></div>
+      <p class="sec-desc" data-i18n="s1.desc"></p>
+      <div class="field">
+        <label class="q" data-i18n="s1.q_order"></label>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="Заказ: Портфолио-сайт" value="да" data-reqgroup="Заказ"><span data-i18n="s1.opt1"></span></label>
+          <label class="check"><input type="checkbox" name="Заказ: Короткое резюме" value="да" data-reqgroup="Заказ"><span data-i18n="s1.opt2"></span></label>
+          <label class="check"><input type="checkbox" name="Заказ: Оформление LinkedIn" value="да" data-reqgroup="Заказ"><span data-i18n="s1.opt3"></span></label>
+          <label class="check"><input type="checkbox" name="Заказ: Всё вместе" value="да" data-reqgroup="Заказ"><span data-i18n="s1.opt4"></span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="q" data-i18n="s1.q_type"></label>
+        <div class="checks">
+          <label class="check"><input type="radio" name="Про человека или бизнес" value="Человек" data-reqgroup="Тип"><span data-i18n="s1.type_person"></span></label>
+          <label class="check"><input type="radio" name="Про человека или бизнес" value="Бизнес" data-reqgroup="Тип"><span data-i18n="s1.type_business"></span></label>
+        </div>
+      </div>
+      <div class="field"><label class="q" data-i18n="s1.q_goal"></label>
+        <textarea name="Главная цель" data-i18n-ph="s1.goal_ph" data-req></textarea></div>
+      <div class="field"><label class="q" data-i18n="s1.q_aud"></label>
+        <textarea name="Кто будет читать" data-i18n-ph="s1.aud_ph" data-req></textarea></div>
+      <div class="field"><label class="q" data-i18n="s1.q_deadline"></label>
+        <input type="text" name="Срок или дата" data-i18n-ph="s1.deadline_ph"></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="card" id="s2">
+      <div class="sec-head"><span class="sec-num">2</span><h2 data-i18n="s2.title"></h2><span class="tag" data-i18n="tag.all"></span></div>
+      <p class="purpose" data-i18n="s2.purpose"></p>
+      <div class="field"><label class="q" data-i18n="s2.q_name"></label><input type="text" name="Имя и фамилия" data-req></div>
+      <div class="field"><label class="q" data-i18n="s2.q_loc"></label><input type="text" name="Город, страна, удалёнка" data-i18n-ph="s2.loc_ph" data-req></div>
+      <div class="field"><label class="q" data-i18n="s2.q_contacts"></label><textarea name="Контакты" data-i18n-ph="s2.contacts_ph" data-req></textarea></div>
+      <div class="field"><label class="q" data-i18n="s2.q_links"></label><textarea name="Ссылки и текущее резюме" data-i18n-ph="s2.links_ph"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s2.q_langs"></label><input type="text" name="Языки" data-i18n-ph="s2.langs_ph" data-req></div>
+      <div class="field"><label class="q" data-i18n="s2.q_pos"></label><input type="text" name="Кто вы одной фразой" data-i18n-ph="s2.pos_ph" data-req></div>
+    </section>
+
+    <!-- 3 -->
+    <section class="card" id="s3">
+      <div class="sec-head"><span class="sec-num">3</span><h2 data-i18n="s3.title"></h2><span class="tag" data-i18n="tag.all"></span></div>
+      <p class="purpose" data-i18n="s3.purpose"></p>
+      <div id="exp-list">
+        <div class="entry exp-entry">
+          <button type="button" class="entry-remove" aria-label="remove">✕</button>
+          <div class="entry-title"><span data-i18n="s3.entry"></span> <b class="entry-n">1</b></div>
+          <div class="field"><label class="q" data-i18n="s3.q_name"></label><input type="text" data-name="Компания или проект" data-req></div>
+          <div class="field"><label class="q" data-i18n="s3.q_role"></label><input type="text" data-name="Должность, период, город" data-i18n-ph="s3.role_ph" data-req></div>
+          <div class="field"><label class="q" data-i18n="s3.q_ach"></label><textarea data-name="Главные результаты" style="min-height:96px" data-req></textarea></div>
+          <div class="field"><label class="q" data-i18n="s3.q_duties"></label><textarea data-name="Чем занимались"></textarea></div>
+          <div class="field"><label class="q" data-i18n="s3.q_tools"></label><input type="text" data-name="Программы и инструменты"></div>
+        </div>
+      </div>
+      <button type="button" class="add-btn" id="add-exp" data-i18n="ui.add_job"></button>
+    </section>
+
+    <!-- 4 -->
+    <section class="card" id="s4">
+      <div class="sec-head"><span class="sec-num">4</span><h2 data-i18n="s4.title"></h2><span class="tag" data-i18n="tag.all"></span></div>
+      <p class="purpose" data-i18n="s4.purpose"></p>
+      <div class="field"><label class="q" data-i18n="s4.q_edu"></label><textarea name="Образование"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s4.q_cert"></label><textarea name="Курсы, сертификаты, награды"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s4.q_skills"></label><textarea name="Главные навыки" data-i18n-ph="s4.skills_ph" data-req></textarea></div>
+    </section>
+
+    <!-- 5 (портфолио) -->
+    <section class="card hidden" id="s5">
+      <div class="sec-head"><span class="sec-num">5</span><h2 data-i18n="s5.title"></h2><span class="tag" data-i18n="tag.portfolio"></span></div>
+      <p class="purpose" data-i18n="s5.purpose"></p>
+      <p class="sec-desc" data-i18n="s5.desc"></p>
+      <div id="proj-list">
+        <div class="entry proj-entry">
+          <button type="button" class="entry-remove" aria-label="remove">✕</button>
+          <div class="entry-title"><span data-i18n="s5.entry"></span> <b class="entry-n">1</b></div>
+          <div class="field"><label class="q" data-i18n="s5.q_name"></label><input type="text" data-name="Название и роль"></div>
+          <div class="field"><label class="q" data-i18n="s5.q_task"></label><textarea data-name="Задача"></textarea></div>
+          <div class="field"><label class="q" data-i18n="s5.q_did"></label><textarea data-name="Что сделали"></textarea></div>
+          <div class="field"><label class="q" data-i18n="s5.q_result"></label><textarea data-name="Результат"></textarea></div>
+          <div class="field"><label class="q" data-i18n="s5.q_links"></label><textarea data-name="Ссылки и фото"></textarea></div>
+          <div class="field"><label class="q" data-i18n="s5.q_review"></label><textarea data-name="Отзыв"></textarea></div>
+        </div>
+      </div>
+      <button type="button" class="add-btn" id="add-proj" data-i18n="ui.add_project"></button>
+    </section>
+
+    <!-- 6 (бизнес) -->
+    <section class="card hidden" id="s6">
+      <div class="sec-head"><span class="sec-num">6</span><h2 data-i18n="s6.title"></h2><span class="tag" data-i18n="tag.business"></span></div>
+      <p class="purpose" data-i18n="s6.purpose"></p>
+      <p class="sec-desc" data-i18n="s6.desc"></p>
+      <div class="field"><label class="q" data-i18n="s6.q_what"></label><input type="text" name="Бизнес — чем занимается"></div>
+      <div class="field"><label class="q" data-i18n="s6.q_prod"></label><textarea name="Бизнес — что продаёте и цены"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s6.q_geo"></label><textarea name="Бизнес — где работаете и клиенты"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s6.q_why"></label><textarea name="Бизнес — почему выбирают вас"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s6.q_proof"></label><textarea name="Бизнес — отзывы и цифры"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s6.q_cta"></label><input type="text" name="Бизнес — что должен сделать человек" data-i18n-ph="s6.cta_ph"></div>
+      <div class="field"><label class="q" data-i18n="s6.q_decide"></label><input type="text" name="Бизнес — кто утверждает"></div>
+    </section>
+
+    <!-- 7 -->
+    <section class="card" id="s7">
+      <div class="sec-head"><span class="sec-num">7</span><h2 data-i18n="s7.title"></h2><span class="tag" data-i18n="tag.pf_li"></span></div>
+      <p class="purpose" data-i18n="s7.purpose"></p>
+      <div class="field"><label class="q" data-i18n="s7.q_words"></label><input type="text" name="3-5 слов о вас" data-req></div>
+      <div class="field"><label class="q" data-i18n="s7.q_edge"></label><textarea name="Чем отличаетесь"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s7.q_story"></label><textarea name="Ваша история"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s7.q_style"></label><input type="text" name="Как хотите выглядеть, цвета, логотип" data-i18n-ph="s7.style_ph" data-req></div>
+      <div class="field"><label class="q" data-i18n="s7.q_refs"></label><textarea name="Сайты и бренды, которые нравятся"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s7.q_taboo"></label><textarea name="Что нельзя писать или показывать"></textarea></div>
+    </section>
+
+    <!-- 8 (LinkedIn) -->
+    <section class="card hidden" id="s8">
+      <div class="sec-head"><span class="sec-num">8</span><h2 data-i18n="s8.title"></h2><span class="tag">LinkedIn</span></div>
+      <div class="field"><label class="q" data-i18n="s8.q_kw"></label><textarea name="LinkedIn — по каким словам находить"></textarea></div>
+      <div class="field"><label class="q" data-i18n="s8.q_markets"></label><input type="text" name="LinkedIn — из каких стран и удалёнка" data-i18n-ph="s8.markets_ph"></div>
+      <div class="field"><label class="q" data-i18n="s8.q_otw"></label><input type="text" name="LinkedIn — открыты к предложениям" data-i18n-ph="s8.otw_ph"></div>
+      <div class="field"><label class="q" data-i18n="s8.q_lang"></label><input type="text" name="LinkedIn — язык профиля и посты" data-i18n-ph="s8.lang_ph"></div>
+    </section>
+
+    <!-- 9 -->
+    <section class="card" id="s9">
+      <div class="sec-head"><span class="sec-num">9</span><h2 data-i18n="s9.title"></h2><span class="tag" data-i18n="tag.all"></span></div>
+      <p class="sec-desc" data-i18n="s9.desc"></p>
+      <div class="field"><label class="q" data-i18n="s9.q_have"></label>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="Есть: фото" value="да"><span data-i18n="s9.opt1"></span></label>
+          <label class="check"><input type="checkbox" name="Есть: логотип" value="да"><span data-i18n="s9.opt2"></span></label>
+          <label class="check"><input type="checkbox" name="Есть: дипломы" value="да"><span data-i18n="s9.opt3"></span></label>
+          <label class="check"><input type="checkbox" name="Есть: фото работ" value="да"><span data-i18n="s9.opt4"></span></label>
+        </div>
+      </div>
+      <div class="field"><label class="q" data-i18n="s9.q_extra"></label><textarea name="Что-то важное ещё"></textarea></div>
+    </section>
+
+    <div class="submit-row">
+      <p class="warn" data-i18n="ui.warn"></p>
+      <button type="submit" class="send" id="send-btn" data-i18n="ui.submit"></button>
+      <p class="privacy" data-i18n="ui.privacy"></p>
+      <div id="err"></div>
+    </div>
+  </form>
+
+  <div id="done">
+    <div class="mark">✦</div>
+    <h2 data-i18n="done.h2"></h2>
+    <p data-i18n="done.p"></p>
+  </div>
+
+  <footer>Анкета · <span class="name">TATSIANA ZHUKAVETS</span> · Portfolio · CV · LinkedIn</footer>
+</div>
+
+<button id="totop" title="Наверх">↑</button>
+
+<script>
+/* ============ i18n dictionary (field NAMES stay Russian for the email) ============ */
+var T = {
+ ru:{
+  "hero.h1":"Анкета для вашего портфолио",
+  "hero.lede":"Пишите просто, своими словами — можно коротко. Чем конкретнее ответ (особенно цифры), тем сильнее результат. Обязательные вопросы помечены <b>✦</b>, остальное — по желанию.",
+  "hero.hint":"Заполнение — около <b>10–15 минут</b>. Можно отвечать по пунктам.",
+  "tag.all":"нужно всем","tag.portfolio":"для портфолио","tag.pf_li":"портфолио и LinkedIn","tag.business":"если про бизнес",
+  "s2.purpose":"Это ваши контакты и первая строка-представление — они идут в самый верх резюме и портфолио.",
+  "s3.purpose":"Главный раздел резюме и портфолио. Каждое место работы станет отдельной карточкой с вашими результатами. Мест может быть сколько угодно — добавляйте кнопкой ниже.",
+  "s4.purpose":"Навыки станут отдельным блоком и словами, по которым вас находят. Ставьте самое важное первым.",
+  "s5.purpose":"Каждый проект станет отдельной карточкой в портфолио: задача → что сделали → результат. Добавляйте столько, сколько хотите показать.",
+  "s6.purpose":"Из этих ответов соберётся презентация бизнеса: главный экран, услуги, почему выбирают вас, отзывы.",
+  "s7.purpose":"Это задаёт тон и внешний вид: по вашим ответам мы подбираем стиль, цвета и формулировки «о вас».",
+  "s3.entry":"Место работы","s5.entry":"Проект",
+  "ui.add_job":"＋ Добавить ещё одно место работы","ui.add_project":"＋ Добавить ещё один проект",
+  "s1.title":"Что делаем","s1.desc":"С этого начнём — чтобы понять, что именно вам нужно.",
+  "s1.q_order":"Что вам нужно? <span class='req'>✦</span>",
+  "s1.opt1":"Портфолио-сайт (страница-презентация о вас)","s1.opt2":"Короткое резюме (CV на одну страницу)","s1.opt3":"Оформление профиля LinkedIn","s1.opt4":"Всё вместе",
+  "s1.q_type":"Это про человека или про бизнес? <span class='req'>✦</span><span class='sub'>Про вас и вашу карьеру — или про компанию</span>",
+  "s1.type_person":"Про человека (карьера)","s1.type_business":"Про бизнес / компанию",
+  "s1.q_goal":"Чего хотите этим добиться? <span class='req'>✦</span><span class='sub'>Например: найти работу, привлечь клиентов, поднять цены, выглядеть солиднее</span>","s1.goal_ph":"Своими словами — что должно измениться?",
+  "s1.q_aud":"Кто будет это читать и смотреть? <span class='req'>✦</span>","s1.aud_ph":"Кого хотите зацепить: работодателей, клиентов, партнёров…",
+  "s1.q_deadline":"Есть срок или важная дата? <span class='sub'>Собеседование, встреча, мероприятие</span>","s1.deadline_ph":"Например: до 30 июля / собеседование 5 августа",
+  "s2.title":"О вас: как связаться",
+  "s2.q_name":"Имя и фамилия <span class='req'>✦</span><span class='sub'>Как писать — и как это пишется латиницей, для англоязычных</span>",
+  "s2.q_loc":"Город и страна <span class='req'>✦</span><span class='sub'>Работаете удалённо? Так и напишем</span>","s2.loc_ph":"Краков, Польша · работаю удалённо",
+  "s2.q_contacts":"Контакты, которые покажем <span class='req'>✦</span><span class='sub'>Почта, телефон, сайт. И куда писать вам с вопросами</span>","s2.contacts_ph":"почта, телефон, мессенджер…",
+  "s2.q_links":"Ссылки и нынешнее резюме <span class='sub'>LinkedIn, соцсети, примеры работ. Приложите ваше резюме, если есть — даже черновик сильно ускорит</span>","s2.links_ph":"ссылки… а файл резюме — отдельным сообщением",
+  "s2.q_langs":"Языки и насколько хорошо вы ими владеете <span class='req'>✦</span>","s2.langs_ph":"русский — свободно, английский — средне, польский — базово",
+  "s2.q_pos":"Кто вы одной короткой фразой? <span class='req'>✦</span><span class='sub'>Чем занимаетесь. Если есть свой слоган — добавьте сюда</span>","s2.pos_ph":"менеджер проектов / мастер по ремонту под ключ",
+  "s3.title":"Опыт работы","s3.note":"Опишите каждое важное место работы или проект. Если их несколько — повторите то же в поле «другие места».",
+  "s3.q_name":"Где работали — название компании или проекта <span class='req'>✦</span>","s3.q_role":"Кем работали · когда · в каком городе <span class='req'>✦</span>","s3.role_ph":"менеджер · 2019–2022 · Пинск",
+  "s3.q_ach":"2–3 главных результата, лучше <b>с цифрами</b> <span class='req'>✦</span><span class='sub'>Например: «поднял продажи на 30% за полгода», «сократил время работы с 3 дней до 1». Это самое важное</span>",
+  "s3.q_duties":"Чем вы там занимались <span class='sub'>Главные обязанности</span>","s3.q_tools":"Какими программами и инструментами пользовались","s3.q_more":"Другие места работы <span class='sub'>Опишите так же</span>",
+  "s4.title":"Образование и навыки","s4.q_edu":"Образование <span class='sub'>Где учились, специальность, годы</span>",
+  "s4.q_cert":"Курсы, сертификаты, награды, публикации <span class='sub'>Если есть — с датами. Нет — можно пропустить</span>","s4.q_skills":"Ваши главные навыки — по важности <span class='req'>✦</span><span class='sub'>Что поставить на первое место. Можно добавить 2–3 сильные стороны характера</span>","s4.skills_ph":"самое важное — первым",
+  "s5.title":"Ваши проекты","s5.desc":"Для портфолио-сайта. Опишите проекты, которые хотите показать отдельно.",
+  "s5.q_name":"Название проекта и ваша роль в нём","s5.q_task":"Что нужно было сделать? Какая была задача или проблема?","s5.q_did":"Что конкретно сделали вы? <span class='sub'>Ваши шаги, ваш вклад</span>","s5.q_result":"Что получилось в итоге <span class='sub'>Лучше в цифрах и «было → стало»</span>","s5.q_links":"Ссылки, фото, скриншоты по проекту","s5.q_review":"Отзыв клиента или руководителя <span class='sub'>Дословно, если есть</span>","s5.q_more":"Другие проекты <span class='sub'>Так же</span>",
+  "s6.title":"О бизнесе","s6.desc":"Заполняйте, если анкета про компанию. Иначе пропустите.","s6.q_what":"Чем занимается бизнес — одним предложением","s6.q_prod":"Что продаёте: товары или услуги и цены <span class='sub'>Можно примерный диапазон</span>","s6.q_geo":"Где работаете, сколько клиентов, кого можно назвать","s6.q_why":"Почему выбирают вас, а не других? <span class='sub'>2–3 конкретные причины</span>","s6.q_proof":"Отзывы и цифры, которые вызывают доверие <span class='sub'>Сколько заказов, лет на рынке, довольных клиентов</span>","s6.q_cta":"Что человек должен сделать, посмотрев материалы?","s6.cta_ph":"написать / позвонить / заказать","s6.q_decide":"Кто у вас утверждает тексты и дизайн?",
+  "s7.title":"Как это должно выглядеть","s7.q_words":"3–5 слов, которыми вас описали бы коллеги и клиенты <span class='req'>✦</span>","s7.q_edge":"Чем вы отличаетесь от других? В чём ваша «фишка»?","s7.q_story":"Ваша история: как вы пришли к тому, чем занимаетесь? <span class='sub'>И что для вас важно в работе. 2–5 предложений — это оживляет портфолио</span>","s7.q_style":"Как хотите выглядеть? <span class='req'>✦</span><span class='sub'>Строго и по-деловому · тепло · ярко и смело · просто/минимализм · дорого. Любимые цвета? Есть логотип?</span>","s7.style_ph":"например: строго и дорого, тёмно-синий и золото, логотип есть","s7.q_refs":"Сайты или бренды, которые вам нравятся <span class='sub'>Ссылки и что именно нравится</span>","s7.q_taboo":"Что <b>нельзя</b> писать или показывать? <span class='sub'>Что скрыть, какие темы или места не упоминать</span>",
+  "s8.title":"LinkedIn","s8.q_kw":"По каким словам вас должны находить? <span class='sub'>Например: «бухгалтер», «дизайнер интерьеров», «юрист по недвижимости»</span>","s8.q_markets":"Из каких стран вас должны находить? Ищете удалённую работу?","s8.markets_ph":"Польша, вся Европа, удалённо","s8.q_otw":"Показывать, что открыты к предложениям? <span class='sub'>Всем · только рекрутёрам · не надо</span>","s8.otw_ph":"всем / только рекрутёрам / не надо","s8.q_lang":"На каком языке вести профиль? <span class='sub'>Нужна ли помощь с постами — обсудим отдельно</span>","s8.lang_ph":"русский / английский / польский",
+  "s9.title":"Файлы и последнее","s9.desc":"Отметьте, что у вас есть. Сами файлы пришлите отдельным сообщением после анкеты.","s9.q_have":"Что можете прислать?","s9.opt1":"Хорошее фото (портрет; для бизнеса — фото работ, команды, товара)","s9.opt2":"Логотип","s9.opt3":"Дипломы, сертификаты","s9.opt4":"Фото, скриншоты или видео ваших работ","s9.q_extra":"Что-то важное, о чём мы не спросили?",
+  "ui.warn":"⚠️ Не закрывайте страницу, пока не нажмёте «Отправить». Иначе ответы не сохранятся, и заполнять придётся заново.","ui.submit":"Отправить анкету","ui.sending":"Отправляю…","ui.privacy":"Ответы придут напрямую на почту Tatsiana. Больше никому не передаются.","ui.menu":"Разделы",
+  "done.h2":"Спасибо! Анкета отправлена","done.p":"Я изучу ответы и вернусь с черновиком. Файлы (фото, логотип, дипломы) пришлите, пожалуйста, отдельным сообщением.",
+  "err.required":"Пожалуйста, заполните обязательные поля (✦). Осталось: ","err.fail":"Не удалось отправить. Проверьте интернет и попробуйте ещё раз — или напишите на "
+ },
+ en:{
+  "hero.h1":"Questionnaire for your portfolio",
+  "hero.lede":"Write simply, in your own words — short is fine. The more specific your answer (especially numbers), the stronger the result. Required questions are marked <b>✦</b>, the rest is optional.",
+  "hero.hint":"Takes about <b>10–15 minutes</b>. Bullet points are fine.",
+  "tag.all":"everyone","tag.portfolio":"for portfolio","tag.pf_li":"portfolio & LinkedIn","tag.business":"if about a business",
+  "s2.purpose":"These are your contacts and your one-line intro — they go right at the top of the résumé and portfolio.",
+  "s3.purpose":"The main section of the résumé and portfolio. Each job becomes its own card with your results. Add as many jobs as you like — use the button below.",
+  "s4.purpose":"Skills become a separate block and the words people find you by. Put the most important first.",
+  "s5.purpose":"Each project becomes its own portfolio card: task → what you did → result. Add as many as you want to show.",
+  "s6.purpose":"These answers build the business presentation: hero screen, services, why people choose you, reviews.",
+  "s7.purpose":"This sets the tone and the look: from your answers we choose the style, colors and the “about you” wording.",
+  "s3.entry":"Job","s5.entry":"Project",
+  "ui.add_job":"＋ Add another job","ui.add_project":"＋ Add another project",
+  "s1.title":"What we're making","s1.desc":"Let's start here — to understand what exactly you need.",
+  "s1.q_order":"What do you need? <span class='req'>✦</span>",
+  "s1.opt1":"Portfolio website (a presentation page about you)","s1.opt2":"Short résumé (one-page CV)","s1.opt3":"LinkedIn profile setup","s1.opt4":"Everything",
+  "s1.q_type":"Is this about a person or a business? <span class='req'>✦</span><span class='sub'>About you and your career — or about a company</span>",
+  "s1.type_person":"About a person (career)","s1.type_business":"About a business / company",
+  "s1.q_goal":"What do you want to achieve? <span class='req'>✦</span><span class='sub'>e.g. find a job, win clients, raise prices, look more solid</span>","s1.goal_ph":"In your own words — what should change?",
+  "s1.q_aud":"Who will read and see this? <span class='req'>✦</span>","s1.aud_ph":"Who you want to reach: employers, clients, partners…",
+  "s1.q_deadline":"Any deadline or important date? <span class='sub'>Interview, meeting, event</span>","s1.deadline_ph":"e.g. by July 30 / interview on Aug 5",
+  "s2.title":"About you: how to reach you",
+  "s2.q_name":"Full name <span class='req'>✦</span><span class='sub'>How to write it — and how it's spelled in Latin letters, for English speakers</span>",
+  "s2.q_loc":"City and country <span class='req'>✦</span><span class='sub'>Do you work remotely? We'll say so</span>","s2.loc_ph":"Krakow, Poland · I work remotely",
+  "s2.q_contacts":"Contacts we'll show <span class='req'>✦</span><span class='sub'>Email, phone, website. And where to reach you with questions</span>","s2.contacts_ph":"email, phone, messenger…",
+  "s2.q_links":"Links and current résumé <span class='sub'>LinkedIn, socials, work samples. Attach your résumé if you have one — even a draft speeds things up a lot</span>","s2.links_ph":"links… and the résumé file in a separate message",
+  "s2.q_langs":"Languages and how well you speak them <span class='req'>✦</span>","s2.langs_ph":"Russian — fluent, English — intermediate, Polish — basic",
+  "s2.q_pos":"Who are you in one short phrase? <span class='req'>✦</span><span class='sub'>What you do. If you have a slogan, add it here</span>","s2.pos_ph":"project manager / turnkey renovation specialist",
+  "s3.title":"Work experience","s3.note":"Describe each important job or project. If there are several — repeat the same in the “other jobs” field.",
+  "s3.q_name":"Where you worked — company or project name <span class='req'>✦</span>","s3.q_role":"Your job · when · which city <span class='req'>✦</span>","s3.role_ph":"manager · 2019–2022 · Pinsk",
+  "s3.q_ach":"2–3 main results, ideally <b>with numbers</b> <span class='req'>✦</span><span class='sub'>e.g. “grew sales 30% in six months”, “cut turnaround from 3 days to 1”. This matters most</span>",
+  "s3.q_duties":"What you did there <span class='sub'>Main responsibilities</span>","s3.q_tools":"What programs and tools you used","s3.q_more":"Other jobs <span class='sub'>Describe them the same way</span>",
+  "s4.title":"Education and skills","s4.q_edu":"Education <span class='sub'>Where you studied, major, years</span>",
+  "s4.q_cert":"Courses, certificates, awards, publications <span class='sub'>If any — with dates. If none, skip</span>","s4.q_skills":"Your main skills — by importance <span class='req'>✦</span><span class='sub'>What comes first. You can add 2–3 personal strengths</span>","s4.skills_ph":"most important first",
+  "s5.title":"Your projects","s5.desc":"For a portfolio website. Describe projects you want to feature separately.",
+  "s5.q_name":"Project name and your role in it","s5.q_task":"What needed to be done? What was the task or problem?","s5.q_did":"What exactly did you do? <span class='sub'>Your steps, your contribution</span>","s5.q_result":"What came out of it <span class='sub'>Ideally in numbers and “before → after”</span>","s5.q_links":"Links, photos, screenshots for the project","s5.q_review":"Client or manager testimonial <span class='sub'>Word for word, if any</span>","s5.q_more":"Other projects <span class='sub'>Same way</span>",
+  "s6.title":"About the business","s6.desc":"Fill in if the questionnaire is about a company. Otherwise skip.","s6.q_what":"What the business does — in one sentence","s6.q_prod":"What you sell: products or services and prices <span class='sub'>A rough range is fine</span>","s6.q_geo":"Where you work, how many clients, who can be named","s6.q_why":"Why do people choose you over others? <span class='sub'>2–3 concrete reasons</span>","s6.q_proof":"Reviews and numbers that build trust <span class='sub'>How many orders, years in business, happy clients</span>","s6.q_cta":"What should a person do after seeing your materials?","s6.cta_ph":"write / call / order","s6.q_decide":"Who approves the texts and design?",
+  "s7.title":"How it should look","s7.q_words":"3–5 words colleagues and clients would use for you <span class='req'>✦</span>","s7.q_edge":"What makes you different from others? What's your edge?","s7.q_story":"Your story: how you came to do what you do? <span class='sub'>And what matters to you in your work. 2–5 sentences — this brings a portfolio to life</span>","s7.q_style":"How do you want to look? <span class='req'>✦</span><span class='sub'>Formal · warm · bold · simple/minimal · premium. Favorite colors? Do you have a logo?</span>","s7.style_ph":"e.g. formal and premium, navy and gold, I have a logo","s7.q_refs":"Websites or brands you like <span class='sub'>Links and what exactly you like</span>","s7.q_taboo":"What <b>must not</b> be written or shown? <span class='sub'>What to hide, which topics or places not to mention</span>",
+  "s8.title":"LinkedIn","s8.q_kw":"What words should people find you by? <span class='sub'>e.g. “accountant”, “interior designer”, “real estate lawyer”</span>","s8.q_markets":"Which countries should find you? Are you looking for remote work?","s8.markets_ph":"Poland, all of Europe, remote","s8.q_otw":"Show that you're open to offers? <span class='sub'>Everyone · recruiters only · no</span>","s8.otw_ph":"everyone / recruiters only / no","s8.q_lang":"What language for the profile? <span class='sub'>Need help with posts — we'll discuss separately</span>","s8.lang_ph":"Russian / English / Polish",
+  "s9.title":"Files and last bit","s9.desc":"Tick what you have. Send the files themselves in a separate message after the form.","s9.q_have":"What can you send?","s9.opt1":"Good photo (portrait; for a business — photos of work, team, product)","s9.opt2":"Logo","s9.opt3":"Diplomas, certificates","s9.opt4":"Photos, screenshots or video of your work","s9.q_extra":"Anything important we didn't ask?",
+  "ui.warn":"⚠️ Don't close the page until you press “Send”. Otherwise your answers won't be saved and you'll have to start over.","ui.submit":"Send questionnaire","ui.sending":"Sending…","ui.privacy":"Answers go straight to Tatsiana's inbox. Shared with no one else.","ui.menu":"Sections",
+  "done.h2":"Thank you! Questionnaire sent","done.p":"I'll review your answers and come back with a draft. Please send files (photo, logo, diplomas) in a separate message.",
+  "err.required":"Please fill in the required fields (✦). Remaining: ","err.fail":"Couldn't send. Check your connection and try again — or email "
+ },
+ pl:{
+  "hero.h1":"Ankieta do Twojego portfolio",
+  "hero.lede":"Pisz prosto, własnymi słowami — krótko też może być. Im konkretniejsza odpowiedź (zwłaszcza liczby), tym mocniejszy efekt. Pytania obowiązkowe oznaczono <b>✦</b>, reszta — opcjonalnie.",
+  "hero.hint":"Zajmuje około <b>10–15 minut</b>. Można odpowiadać w punktach.",
+  "tag.all":"dla wszystkich","tag.portfolio":"do portfolio","tag.pf_li":"portfolio i LinkedIn","tag.business":"jeśli o firmie",
+  "s2.purpose":"To Twoje kontakty i pierwsza linijka-przedstawienie — trafiają na samą górę CV i portfolio.",
+  "s3.purpose":"Główna sekcja CV i portfolio. Każde miejsce pracy stanie się osobną kartą z Twoimi wynikami. Może być ich dowolnie wiele — dodawaj przyciskiem poniżej.",
+  "s4.purpose":"Umiejętności staną się osobnym blokiem i słowami, po których Cię znajdują. Najważniejsze na początku.",
+  "s5.purpose":"Każdy projekt stanie się osobną kartą portfolio: zadanie → co zrobiłeś/aś → wynik. Dodaj tyle, ile chcesz pokazać.",
+  "s6.purpose":"Z tych odpowiedzi powstanie prezentacja firmy: ekran główny, usługi, dlaczego wybierają Ciebie, opinie.",
+  "s7.purpose":"To nadaje ton i wygląd: na podstawie odpowiedzi dobieramy styl, kolory i formułę „o Tobie”.",
+  "s3.entry":"Miejsce pracy","s5.entry":"Projekt",
+  "ui.add_job":"＋ Dodaj kolejne miejsce pracy","ui.add_project":"＋ Dodaj kolejny projekt",
+  "s1.title":"Co robimy","s1.desc":"Zacznijmy tutaj — by zrozumieć, czego dokładnie potrzebujesz.",
+  "s1.q_order":"Czego potrzebujesz? <span class='req'>✦</span>",
+  "s1.opt1":"Strona-portfolio (strona-prezentacja o Tobie)","s1.opt2":"Krótkie CV (na jedną stronę)","s1.opt3":"Konfiguracja profilu LinkedIn","s1.opt4":"Wszystko razem",
+  "s1.q_type":"To o osobie czy o firmie? <span class='req'>✦</span><span class='sub'>O Tobie i Twojej karierze — czy o firmie</span>",
+  "s1.type_person":"O osobie (kariera)","s1.type_business":"O firmie",
+  "s1.q_goal":"Co chcesz tym osiągnąć? <span class='req'>✦</span><span class='sub'>Np. znaleźć pracę, pozyskać klientów, podnieść ceny, wyglądać solidniej</span>","s1.goal_ph":"Własnymi słowami — co ma się zmienić?",
+  "s1.q_aud":"Kto będzie to czytać i oglądać? <span class='req'>✦</span>","s1.aud_ph":"Kogo chcesz zainteresować: pracodawców, klientów, partnerów…",
+  "s1.q_deadline":"Jest termin lub ważna data? <span class='sub'>Rozmowa, spotkanie, wydarzenie</span>","s1.deadline_ph":"np. do 30 lipca / rozmowa 5 sierpnia",
+  "s2.title":"O Tobie: jak się skontaktować",
+  "s2.q_name":"Imię i nazwisko <span class='req'>✦</span><span class='sub'>Jak zapisać — i jak brzmi po łacinie, dla anglojęzycznych</span>",
+  "s2.q_loc":"Miasto i kraj <span class='req'>✦</span><span class='sub'>Pracujesz zdalnie? Tak napiszemy</span>","s2.loc_ph":"Kraków, Polska · pracuję zdalnie",
+  "s2.q_contacts":"Kontakty, które pokażemy <span class='req'>✦</span><span class='sub'>E-mail, telefon, strona. I gdzie pisać do Ciebie z pytaniami</span>","s2.contacts_ph":"e-mail, telefon, komunikator…",
+  "s2.q_links":"Linki i obecne CV <span class='sub'>LinkedIn, social media, przykłady prac. Załącz swoje CV, jeśli masz — nawet szkic mocno przyspieszy</span>","s2.links_ph":"linki… a plik CV — osobną wiadomością",
+  "s2.q_langs":"Języki i jak dobrze je znasz <span class='req'>✦</span>","s2.langs_ph":"rosyjski — biegle, angielski — średnio, polski — podstawowo",
+  "s2.q_pos":"Kim jesteś w jednym krótkim zdaniu? <span class='req'>✦</span><span class='sub'>Czym się zajmujesz. Jeśli masz slogan — dodaj tutaj</span>","s2.pos_ph":"kierownik projektów / specjalista od remontów pod klucz",
+  "s3.title":"Doświadczenie zawodowe","s3.note":"Opisz każde ważne miejsce pracy lub projekt. Jeśli jest ich kilka — powtórz to samo w polu „inne miejsca”.",
+  "s3.q_name":"Gdzie pracowałeś/aś — nazwa firmy lub projektu <span class='req'>✦</span>","s3.q_role":"Kim byłeś/aś · kiedy · w jakim mieście <span class='req'>✦</span>","s3.role_ph":"kierownik · 2019–2022 · Pińsk",
+  "s3.q_ach":"2–3 główne wyniki, najlepiej <b>z liczbami</b> <span class='req'>✦</span><span class='sub'>Np. „podniosłem sprzedaż o 30% w pół roku”, „skróciłem czas z 3 dni do 1”. To najważniejsze</span>",
+  "s3.q_duties":"Czym się tam zajmowałeś/aś <span class='sub'>Główne obowiązki</span>","s3.q_tools":"Z jakich programów i narzędzi korzystałeś/aś","s3.q_more":"Inne miejsca pracy <span class='sub'>Opisz tak samo</span>",
+  "s4.title":"Wykształcenie i umiejętności","s4.q_edu":"Wykształcenie <span class='sub'>Gdzie studiowałeś/aś, kierunek, lata</span>",
+  "s4.q_cert":"Kursy, certyfikaty, nagrody, publikacje <span class='sub'>Jeśli są — z datami. Jeśli nie, pomiń</span>","s4.q_skills":"Twoje główne umiejętności — wg ważności <span class='req'>✦</span><span class='sub'>Co na pierwszym miejscu. Możesz dodać 2–3 mocne cechy charakteru</span>","s4.skills_ph":"najważniejsze na początku",
+  "s5.title":"Twoje projekty","s5.desc":"Do strony-portfolio. Opisz projekty, które chcesz pokazać osobno.",
+  "s5.q_name":"Nazwa projektu i Twoja rola","s5.q_task":"Co trzeba było zrobić? Jakie było zadanie lub problem?","s5.q_did":"Co dokładnie zrobiłeś/aś? <span class='sub'>Twoje kroki, Twój wkład</span>","s5.q_result":"Co z tego wyszło <span class='sub'>Najlepiej w liczbach i „przed → po”</span>","s5.q_links":"Linki, zdjęcia, zrzuty ekranu projektu","s5.q_review":"Opinia klienta lub przełożonego <span class='sub'>Dosłownie, jeśli jest</span>","s5.q_more":"Inne projekty <span class='sub'>Tak samo</span>",
+  "s6.title":"O firmie","s6.desc":"Wypełnij, jeśli ankieta jest o firmie. W innym wypadku pomiń.","s6.q_what":"Czym zajmuje się firma — w jednym zdaniu","s6.q_prod":"Co sprzedajesz: produkty lub usługi i ceny <span class='sub'>Może być przybliżony zakres</span>","s6.q_geo":"Gdzie działasz, ilu klientów, kogo można wymienić","s6.q_why":"Dlaczego wybierają Ciebie, a nie innych? <span class='sub'>2–3 konkretne powody</span>","s6.q_proof":"Opinie i liczby budujące zaufanie <span class='sub'>Ile zamówień, lat na rynku, zadowolonych klientów</span>","s6.q_cta":"Co człowiek ma zrobić po obejrzeniu materiałów?","s6.cta_ph":"napisać / zadzwonić / zamówić","s6.q_decide":"Kto zatwierdza teksty i projekt?",
+  "s7.title":"Jak to ma wyglądać","s7.q_words":"3–5 słów, którymi opisaliby Cię współpracownicy i klienci <span class='req'>✦</span>","s7.q_edge":"Czym różnisz się od innych? Na czym polega Twój atut?","s7.q_story":"Twoja historia: jak doszedłeś/aś do tego, co robisz? <span class='sub'>I co jest dla Ciebie ważne w pracy. 2–5 zdań — to ożywia portfolio</span>","s7.q_style":"Jak chcesz wyglądać? <span class='req'>✦</span><span class='sub'>Formalnie · ciepło · odważnie · prosto/minimalizm · premium. Ulubione kolory? Masz logo?</span>","s7.style_ph":"np. formalnie i premium, granat i złoto, mam logo","s7.q_refs":"Strony lub marki, które Ci się podobają <span class='sub'>Linki i co dokładnie się podoba</span>","s7.q_taboo":"Czego <b>nie wolno</b> pisać ani pokazywać? <span class='sub'>Co ukryć, jakich tematów lub miejsc nie wspominać</span>",
+  "s8.title":"LinkedIn","s8.q_kw":"Po jakich słowach mają Cię znajdować? <span class='sub'>Np. „księgowa”, „projektant wnętrz”, „prawnik od nieruchomości”</span>","s8.q_markets":"Z jakich krajów mają Cię znajdować? Szukasz pracy zdalnej?","s8.markets_ph":"Polska, cała Europa, zdalnie","s8.q_otw":"Pokazywać, że jesteś otwarty/a na oferty? <span class='sub'>Wszystkim · tylko rekruterom · nie</span>","s8.otw_ph":"wszystkim / tylko rekruterom / nie","s8.q_lang":"W jakim języku prowadzić profil? <span class='sub'>Potrzebna pomoc z postami — omówimy osobno</span>","s8.lang_ph":"rosyjski / angielski / polski",
+  "s9.title":"Pliki i na koniec","s9.desc":"Zaznacz, co masz. Same pliki prześlij osobną wiadomością po ankiecie.","s9.q_have":"Co możesz przesłać?","s9.opt1":"Dobre zdjęcie (portret; dla firmy — zdjęcia prac, zespołu, produktu)","s9.opt2":"Logo","s9.opt3":"Dyplomy, certyfikaty","s9.opt4":"Zdjęcia, zrzuty ekranu lub wideo prac","s9.q_extra":"Coś ważnego, o co nie zapytaliśmy?",
+  "ui.warn":"⚠️ Nie zamykaj strony, dopóki nie klikniesz „Wyślij”. Inaczej odpowiedzi nie zostaną zapisane i trzeba będzie zaczynać od nowa.","ui.submit":"Wyślij ankietę","ui.sending":"Wysyłam…","ui.privacy":"Odpowiedzi trafiają prosto na skrzynkę Tatsiany. Nikomu więcej nie są przekazywane.","ui.menu":"Sekcje",
+  "done.h2":"Dziękujemy! Ankieta wysłana","done.p":"Przejrzę odpowiedzi i wrócę ze szkicem. Pliki (zdjęcie, logo, dyplomy) prześlij proszę osobną wiadomością.",
+  "err.required":"Uzupełnij proszę pola obowiązkowe (✦). Pozostało: ","err.fail":"Nie udało się wysłać. Sprawdź połączenie i spróbuj ponownie — albo napisz na "
+ }
+};
+
+var NAV = {
+ ru:["Что делаем","Контакты","Опыт","Навыки","Проекты","Бизнес","Стиль","LinkedIn","Файлы"],
+ en:["What we do","Contacts","Experience","Skills","Projects","Business","Style","LinkedIn","Files"],
+ pl:["Co robimy","Kontakt","Doświadcz.","Umiejętn.","Projekty","Firma","Styl","LinkedIn","Pliki"]
+};
+var SECTIONS = ['s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+
+/* ============ language ============ */
+var lang = 'ru';
+function applyLang(l){
+  lang = (T[l] ? l : 'ru');
+  document.documentElement.lang = lang;
+  var dict = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var v = dict[el.getAttribute('data-i18n')];
+    if(v != null) el.innerHTML = v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var v = dict[el.getAttribute('data-i18n-ph')];
+    if(v != null) el.setAttribute('placeholder', v);
+  });
+  buildNav();
+  document.querySelectorAll('.langbtn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-lang')===lang); });
+  try{ localStorage.setItem('anketa-lang', lang); }catch(e){}
+  updateProgress();
+}
+document.querySelectorAll('.langbtn').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.getAttribute('data-lang')); });
+});
+
+/* ============ theme ============ */
+var themeBtn = document.getElementById('theme-btn');
+function applyTheme(t){
+  var lightOn = (t === 'light');
+  document.body.classList.toggle('light', lightOn);
+  themeBtn.textContent = lightOn ? '🌙' : '☀';
+  themeBtn.title = lightOn ? 'Тёмная тема' : 'Светлая тема';
+  try{ localStorage.setItem('anketa-theme', t); }catch(e){}
+}
+themeBtn.addEventListener('click', function(){
+  applyTheme(document.body.classList.contains('light') ? 'dark' : 'light');
+});
+
+/* ============ side drawer nav ============ */
+var drawer = document.getElementById('drawer');
+var backdrop = document.getElementById('drawer-backdrop');
+var navBox = document.getElementById('drawer-nav');
+function openDrawer(){ drawer.classList.add('open'); backdrop.classList.add('open'); }
+function closeDrawer(){ drawer.classList.remove('open'); backdrop.classList.remove('open'); }
+document.getElementById('menu-btn').addEventListener('click', openDrawer);
+document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+backdrop.addEventListener('click', closeDrawer);
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+
+function buildNav(){
+  navBox.innerHTML = '';
+  SECTIONS.forEach(function(id, i){
+    var sec = document.getElementById(id);
+    if(sec.classList.contains('hidden')) return;
+    var a = document.createElement('button');
+    a.type = 'button'; a.className = 'navlink'; a.setAttribute('data-target', id);
+    a.innerHTML = '<span class="navnum">' + (i+1) + '</span><span>' + NAV[lang][i] + '</span>';
+    a.addEventListener('click', function(){
+      closeDrawer();
+      var t = document.getElementById(id);
+      if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    navBox.appendChild(a);
+  });
+}
+
+/* swipe gestures: open by swiping right from left edge, close by swiping left */
+var tsX = 0, tsY = 0;
+document.addEventListener('touchstart', function(e){
+  var t = e.touches[0]; tsX = t.clientX; tsY = t.clientY;
+}, {passive:true});
+document.addEventListener('touchend', function(e){
+  var t = e.changedTouches[0];
+  var dx = t.clientX - tsX, dy = t.clientY - tsY;
+  if(Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx)) return; // ignore vertical / small
+  if(dx > 0 && tsX < 45 && !drawer.classList.contains('open')) openDrawer();
+  else if(dx < 0 && drawer.classList.contains('open')) closeDrawer();
+}, {passive:true});
+
+/* highlight active section in drawer */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      var id = e.target.id;
+      navBox.querySelectorAll('.navlink').forEach(function(a){
+        a.classList.toggle('active', a.getAttribute('data-target') === id);
+      });
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px'});
+document.querySelectorAll('section.card').forEach(function(s){ io.observe(s); });
+
+/* ============ conditional blocks ============ */
+var form = document.getElementById('anketa');
+function cb(name){ return form.querySelector('[name="'+name+'"]'); }
+function applyConditional(){
+  var all = cb('Заказ: Всё вместе');
+  var pf  = cb('Заказ: Портфолио-сайт');
+  var li  = cb('Заказ: Оформление LinkedIn');
+  var biz = form.querySelector('[name="Про человека или бизнес"][value="Бизнес"]');
+  var wantPf  = (pf && pf.checked) || (all && all.checked);
+  var wantLi  = (li && li.checked) || (all && all.checked);
+  var wantBiz = biz && biz.checked;
+  document.getElementById('s5').classList.toggle('hidden', !wantPf);
+  document.getElementById('s8').classList.toggle('hidden', !wantLi);
+  document.getElementById('s6').classList.toggle('hidden', !wantBiz);
+  buildNav();
+  updateProgress();
+}
+form.addEventListener('change', applyConditional);
+
+/* ============ progress (visible required singles + groups) ============ */
+var bar = document.getElementById('progress');
+var toTop = document.getElementById('totop');
+function isVisible(el){ return el.offsetParent !== null; }
+function reqSingles(){ return Array.prototype.slice.call(form.querySelectorAll('[data-req]')).filter(isVisible); }
+function reqGroups(){
+  var names = {};
+  form.querySelectorAll('[data-reqgroup]').forEach(function(el){ if(isVisible(el)) names[el.getAttribute('data-reqgroup')] = true; });
+  return Object.keys(names);
+}
+function groupFilled(name){
+  return !!form.querySelector('[data-reqgroup="'+name+'"]:checked');
+}
+function updateProgress(){
+  var singles = reqSingles(), groups = reqGroups();
+  var filled = singles.filter(function(f){ return f.value.trim() !== ''; }).length
+             + groups.filter(groupFilled).length;
+  var total = singles.length + groups.length;
+  bar.style.width = (total ? Math.round(filled/total*100) : 0) + '%';
+}
+form.addEventListener('input', updateProgress);
+window.addEventListener('scroll', function(){ toTop.classList.toggle('show', window.scrollY > 500); });
+toTop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+/* ============ repeatable entries (work + projects) ============ */
+function translateWithin(root){
+  var dict = T[lang];
+  root.querySelectorAll('[data-i18n]').forEach(function(el){ var v=dict[el.getAttribute('data-i18n')]; if(v!=null) el.innerHTML=v; });
+  root.querySelectorAll('[data-i18n-ph]').forEach(function(el){ var v=dict[el.getAttribute('data-i18n-ph')]; if(v!=null) el.setAttribute('placeholder',v); });
+}
+function refreshEntries(listId){
+  var entries = document.getElementById(listId).querySelectorAll('.entry');
+  entries.forEach(function(en,i){
+    var n = en.querySelector('.entry-n'); if(n) n.textContent = (i+1);
+    var rm = en.querySelector('.entry-remove'); if(rm) rm.style.display = entries.length>1 ? 'block' : 'none';
+  });
+}
+function bindRemoves(list){
+  list.querySelectorAll('.entry-remove').forEach(function(btn){
+    if(btn._bound) return; btn._bound = true;
+    btn.addEventListener('click', function(){
+      if(list.querySelectorAll('.entry').length <= 1) return;
+      btn.closest('.entry').remove();
+      refreshEntries(list.id); updateProgress();
+    });
+  });
+}
+function addEntry(listId){
+  var list = document.getElementById(listId);
+  var clone = list.querySelector('.entry').cloneNode(true);
+  clone.querySelectorAll('input,textarea').forEach(function(f){ f.value=''; f.removeAttribute('data-req'); f.style.borderColor=''; });
+  list.appendChild(clone);
+  translateWithin(clone); bindRemoves(list); refreshEntries(listId); updateProgress();
+  clone.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function nameEntries(listId, prefix){
+  document.getElementById(listId).querySelectorAll('.entry').forEach(function(en,i){
+    en.querySelectorAll('[data-name]').forEach(function(f){ f.name = prefix+' '+(i+1)+': '+f.getAttribute('data-name'); });
+  });
+}
+document.getElementById('add-exp').addEventListener('click', function(){ addEntry('exp-list'); });
+document.getElementById('add-proj').addEventListener('click', function(){ addEntry('proj-list'); });
+bindRemoves(document.getElementById('exp-list'));
+bindRemoves(document.getElementById('proj-list'));
+refreshEntries('exp-list'); refreshEntries('proj-list');
+
+/* ============ submit → email via FormSubmit ============ */
+var errBox = document.getElementById('err');
+var btn = document.getElementById('send-btn');
+var ENDPOINT = 'https://formsubmit.co/ajax/zhukavetst@gmail.com';
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  errBox.style.display = 'none';
+
+  var missingSingles = reqSingles().filter(function(f){ return f.value.trim() === ''; });
+  var missingGroups = reqGroups().filter(function(g){ return !groupFilled(g); });
+  var missingCount = missingSingles.length + missingGroups.length;
+  if(missingCount){
+    var target = missingSingles[0];
+    if(target){
+      target.focus();
+      target.scrollIntoView({behavior:'smooth', block:'center'});
+      target.style.borderColor = '#e05555';
+    } else {
+      var g = form.querySelector('[data-reqgroup="'+missingGroups[0]+'"]');
+      if(g) g.closest('section').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    errBox.textContent = T[lang]['err.required'] + missingCount;
+    errBox.style.display = 'block';
+    return;
+  }
+
+  nameEntries('exp-list', 'Опыт');
+  nameEntries('proj-list', 'Проект');
+  var data = { _subject:'Новая анкета — портфолио / CV / LinkedIn', _template:'table', _captcha:'false', 'Язык заполнения':lang.toUpperCase() };
+  Array.prototype.forEach.call(form.elements, function(el){
+    if(!el.name) return;
+    if(el.type === 'checkbox'){ if(el.checked) data[el.name] = 'да'; }
+    else if(el.type === 'radio'){ if(el.checked) data[el.name] = el.value; }
+    else if(el.value.trim() !== ''){ data[el.name] = el.value.trim(); }
+  });
+  btn.disabled = true; btn.textContent = T[lang]['ui.sending'];
+  fetch(ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(data) })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(res.success === 'true' || res.success === true){
+        form.style.display = 'none';
+        document.getElementById('done').style.display = 'block';
+        bar.style.width = '100%';
+        window.scrollTo({top:0, behavior:'smooth'});
+      } else { throw new Error('fail'); }
+    })
+    .catch(function(){
+      btn.disabled = false; btn.textContent = T[lang]['ui.submit'];
+      errBox.innerHTML = T[lang]['err.fail'] + '<a href="mailto:zhukavetst@gmail.com">zhukavetst@gmail.com</a>.';
+      errBox.style.display = 'block';
+    });
+});
+
+/* ============ init from storage ============ */
+(function init(){
+  var st=null, sl=null;
+  try{ st = localStorage.getItem('anketa-theme'); sl = localStorage.getItem('anketa-lang'); }catch(e){}
+  applyTheme(st === 'light' ? 'light' : 'dark');
+  applyLang(sl && T[sl] ? sl : 'ru');
+  applyConditional();
+})();
+</script>
+</body>
+</html>
