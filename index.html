@@ -18,6 +18,7 @@
     --glow:radial-gradient(1200px 600px at 12% -8%, rgba(124,58,237,.28), transparent 60%),
            radial-gradient(900px 500px at 100% 0%, rgba(70,110,255,.14), transparent 55%);
     --shadow:0 20px 50px -30px rgba(0,0,0,.7);
+    --shine:linear-gradient(100deg,#c9922c,#f5c15c,#fff3d6,#ffe9b0,#f5c15c,#c9922c);
     --radius:16px;
   }
   /* ===== LIGHT — KAUN GOLD ===== */
@@ -33,6 +34,7 @@
     --glow:radial-gradient(1100px 560px at 12% -8%, rgba(217,180,94,.35), transparent 60%),
            radial-gradient(900px 500px at 100% 0%, rgba(176,138,224,.12), transparent 55%);
     --shadow:0 20px 44px -28px rgba(124,84,12,.5);
+    --shine:linear-gradient(100deg,#5f470c,#9c6b10,#c99a34,#e6cf7a,#c99a34,#9c6b10,#5f470c);
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -95,8 +97,11 @@
     display:inline-block; padding:6px 16px; border:1px solid var(--line); border-radius:999px; margin-bottom:20px}
   h1{font-family:Georgia,"Times New Roman",serif; font-weight:500; font-size:clamp(2rem,6vw,3rem);
     margin:.1em 0 .3em; letter-spacing:.01em;
-    background:linear-gradient(180deg,var(--ink),var(--accent-soft) 55%,var(--gold-deep));
-    -webkit-background-clip:text; background-clip:text; color:transparent}
+    background:var(--shine); background-size:200% auto;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation:shine 6s linear infinite}
+  @keyframes shine{to{background-position:200% center}}
+  @media (prefers-reduced-motion: reduce){ h1{animation:none} }
   .lede{color:var(--ink-soft); font-size:1.02rem; max-width:58ch; margin:0 auto}
   .hint{color:var(--muted); font-size:.9rem; margin-top:14px}
   .hint b{color:var(--gold)}
@@ -393,7 +398,7 @@ var T = {
   "ui.add_job":"＋ Добавить ещё одно место работы","ui.add_project":"＋ Добавить ещё один проект",
   "s1.title":"Что делаем","s1.desc":"С этого начнём — чтобы понять, что именно вам нужно.",
   "s1.q_order":"Что вам нужно? <span class='req'>✦</span>",
-  "s1.opt1":"Портфолио-сайт (страница-презентация о вас)","s1.opt2":"Короткое резюме (CV на одну страницу)","s1.opt3":"Оформление профиля LinkedIn","s1.opt4":"Всё вместе",
+  "s1.opt1":"Интерактивное портфолио (сайт-презентация о вас)","s1.opt2":"Executive summary — короткое CV (одна страница)","s1.opt3":"Оформление профиля LinkedIn","s1.opt4":"Всё вместе",
   "s1.q_type":"Это про человека или про бизнес? <span class='req'>✦</span><span class='sub'>Про вас и вашу карьеру — или про компанию</span>",
   "s1.type_person":"Про человека (карьера)","s1.type_business":"Про бизнес / компанию",
   "s1.q_goal":"Чего хотите этим добиться? <span class='req'>✦</span><span class='sub'>Например: найти работу, привлечь клиентов, поднять цены, выглядеть солиднее</span>","s1.goal_ph":"Своими словами — что должно измениться?",
@@ -437,7 +442,7 @@ var T = {
   "ui.add_job":"＋ Add another job","ui.add_project":"＋ Add another project",
   "s1.title":"What we're making","s1.desc":"Let's start here — to understand what exactly you need.",
   "s1.q_order":"What do you need? <span class='req'>✦</span>",
-  "s1.opt1":"Portfolio website (a presentation page about you)","s1.opt2":"Short résumé (one-page CV)","s1.opt3":"LinkedIn profile setup","s1.opt4":"Everything",
+  "s1.opt1":"Interactive portfolio (a presentation page about you)","s1.opt2":"Executive summary — short CV (one page)","s1.opt3":"LinkedIn profile setup","s1.opt4":"Everything",
   "s1.q_type":"Is this about a person or a business? <span class='req'>✦</span><span class='sub'>About you and your career — or about a company</span>",
   "s1.type_person":"About a person (career)","s1.type_business":"About a business / company",
   "s1.q_goal":"What do you want to achieve? <span class='req'>✦</span><span class='sub'>e.g. find a job, win clients, raise prices, look more solid</span>","s1.goal_ph":"In your own words — what should change?",
@@ -481,7 +486,7 @@ var T = {
   "ui.add_job":"＋ Dodaj kolejne miejsce pracy","ui.add_project":"＋ Dodaj kolejny projekt",
   "s1.title":"Co robimy","s1.desc":"Zacznijmy tutaj — by zrozumieć, czego dokładnie potrzebujesz.",
   "s1.q_order":"Czego potrzebujesz? <span class='req'>✦</span>",
-  "s1.opt1":"Strona-portfolio (strona-prezentacja o Tobie)","s1.opt2":"Krótkie CV (na jedną stronę)","s1.opt3":"Konfiguracja profilu LinkedIn","s1.opt4":"Wszystko razem",
+  "s1.opt1":"Interaktywne portfolio (strona-prezentacja o Tobie)","s1.opt2":"Executive summary — krótkie CV (jedna strona)","s1.opt3":"Konfiguracja profilu LinkedIn","s1.opt4":"Wszystko razem",
   "s1.q_type":"To o osobie czy o firmie? <span class='req'>✦</span><span class='sub'>O Tobie i Twojej karierze — czy o firmie</span>",
   "s1.type_person":"O osobie (kariera)","s1.type_business":"O firmie",
   "s1.q_goal":"Co chcesz tym osiągnąć? <span class='req'>✦</span><span class='sub'>Np. znaleźć pracę, pozyskać klientów, podnieść ceny, wyglądać solidniej</span>","s1.goal_ph":"Własnymi słowami — co ma się zmienić?",
