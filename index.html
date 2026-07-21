@@ -187,6 +187,17 @@
 
   footer{text-align:center; color:var(--muted); font-size:.8rem; margin-top:40px}
   footer .name{color:var(--gold); letter-spacing:.05em}
+
+  /* ── тихая полоска-подпись: связывает публичные страницы между собой ── */
+  .sitenav{margin:34px 0 0; padding:18px 0 0; display:flex; flex-wrap:wrap; align-items:center;
+    gap:10px 22px; border-top:1px solid var(--line-soft); font-size:12.5px; line-height:1.7; text-align:left}
+  .sitenav .sn-who{font-family:Georgia,"Times New Roman",serif; font-style:italic; font-size:14px;
+    color:var(--ink-soft); white-space:nowrap}
+  .sitenav .sn-links{display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; min-width:0}
+  .sitenav a{color:var(--muted); text-decoration:none; border-bottom:1px solid transparent;
+    transition:color .18s, border-color .18s}
+  .sitenav a:hover{color:var(--gold); border-bottom-color:var(--line)}
+  .sitenav .sn-here{color:var(--muted); opacity:.45}
 </style>
 </head>
 <body>
@@ -376,6 +387,18 @@
     <p data-i18n="done.p"></p>
   </div>
 
+  <!-- ── полоска-подпись: переход на остальные публичные страницы (отдельный блок, формы не касается) ── -->
+  <nav class="sitenav" aria-label="More pages">
+    <span class="sn-who">Tatsiana Zhukavets</span>
+    <span class="sn-links">
+      <a href="https://intlady95.github.io/portfolio/" data-i18n="nav.portfolio"></a>
+      <a href="https://intlady95.github.io/summary/" data-i18n="nav.summary"></a>
+      <a href="https://intlady95.github.io/high-pitch/" data-i18n="nav.pitch"></a>
+      <a href="https://intlady95.github.io/fitting-room/" data-i18n="nav.fitting"></a>
+      <a href="https://intlady95.github.io/links/" data-i18n="nav.links"></a>
+    </span>
+  </nav>
+
   <footer>Анкета · <span class="name">TATSIANA ZHUKAVETS</span> · Portfolio · CV · LinkedIn</footer>
 </div>
 
@@ -387,7 +410,7 @@ var T = {
  ru:{
   "hero.h1":"Анкета для вашего портфолио",
   "hero.lede":"Пишите просто, своими словами — можно коротко. Чем конкретнее ответ (особенно цифры), тем сильнее результат. Обязательные вопросы помечены <b>✦</b>, остальное — по желанию.",
-  "hero.hint":"Заполняйте спокойно, в своём темпе — можно отвечать по пунктам.",
+  "hero.hint":"Заполняйте спокойно, в своём темпе — можно отвечать по пунктам. Пока делаю работу, попрошу у вас 2–3 коротких подтверждения по ходу (например, выбрать вариант или сказать «ок») — это займёт пару минут, но без них работа встанет.",
   "tag.all":"нужно всем","tag.portfolio":"для портфолио","tag.pf_li":"портфолио и LinkedIn","tag.business":"если про бизнес",
   "s2.purpose":"Это ваши контакты и первая строка-представление — они идут в самый верх резюме и портфолио.",
   "s3.purpose":"Главный раздел резюме и портфолио. Каждое место работы станет отдельной карточкой с вашими результатами. Мест может быть сколько угодно — добавляйте кнопкой ниже.",
@@ -425,13 +448,14 @@ var T = {
   "s8.title":"LinkedIn","s8.q_kw":"По каким словам вас должны находить? <span class='sub'>Например: «бухгалтер», «дизайнер интерьеров», «юрист по недвижимости»</span>","s8.q_markets":"Из каких стран вас должны находить? Ищете удалённую работу?","s8.markets_ph":"Польша, вся Европа, удалённо","s8.q_otw":"Показывать, что открыты к предложениям? <span class='sub'>Всем · только рекрутёрам · не надо</span>","s8.otw_ph":"всем / только рекрутёрам / не надо","s8.q_lang":"На каком языке вести профиль? <span class='sub'>Нужна ли помощь с постами — обсудим отдельно</span>","s8.lang_ph":"русский / английский / польский",
   "s9.title":"Файлы и последнее","s9.desc":"Отметьте, что у вас есть. Сами файлы пришлите отдельным сообщением после анкеты.","s9.q_have":"Что можете прислать?","s9.opt1":"Хорошее фото (портрет; для бизнеса — фото работ, команды, товара)","s9.opt2":"Логотип","s9.opt3":"Дипломы, сертификаты","s9.opt4":"Фото, скриншоты или видео ваших работ","s9.q_extra":"Что-то важное, о чём мы не спросили?",
   "ui.warn":"⚠️ Не закрывайте страницу, пока не нажмёте «Отправить». Иначе ответы не сохранятся, и заполнять придётся заново.","ui.submit":"Отправить анкету","ui.sending":"Отправляю…","ui.privacy":"Ответы придут напрямую на почту Tatsiana. Больше никому не передаются.","ui.menu":"Разделы",
+  "nav.portfolio":"Интерактивное портфолио","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Примерочная","nav.links":"Все ссылки",
   "done.h2":"Спасибо! Анкета отправлена","done.p":"Я изучу ответы и вернусь с черновиком. Файлы (фото, логотип, дипломы) пришлите, пожалуйста, отдельным сообщением.",
   "err.required":"Пожалуйста, заполните обязательные поля (✦). Осталось: ","err.fail":"Не удалось отправить. Проверьте интернет и попробуйте ещё раз — или напишите на "
  },
  en:{
   "hero.h1":"Questionnaire for your portfolio",
   "hero.lede":"Write simply, in your own words — short is fine. The more specific your answer (especially numbers), the stronger the result. Required questions are marked <b>✦</b>, the rest is optional.",
-  "hero.hint":"Take your time, at your own pace — bullet points are perfectly fine.",
+  "hero.hint":"Take your time, at your own pace — bullet points are perfectly fine. While I work, I'll ask you for 2–3 short confirmations along the way (picking an option, or just saying “ok”) — a couple of minutes each, but the work stops without them.",
   "tag.all":"everyone","tag.portfolio":"for portfolio","tag.pf_li":"portfolio & LinkedIn","tag.business":"if about a business",
   "s2.purpose":"These are your contacts and your one-line intro — they go right at the top of the résumé and portfolio.",
   "s3.purpose":"The main section of the résumé and portfolio. Each job becomes its own card with your results. Add as many jobs as you like — use the button below.",
@@ -443,7 +467,7 @@ var T = {
   "ui.add_job":"＋ Add another job","ui.add_project":"＋ Add another project",
   "s1.title":"Your order","s1.desc":"Let's start here — to understand what exactly you need.",
   "s1.q_order":"What do you need? <span class='req'>✦</span>",
-  "s1.opt1":"Interactive portfolio (a presentation page about you or your business)","s1.opt2":"Executive summary — short CV (one page)","s1.opt3":"LinkedIn profile setup","s1.opt4":"Everything","s1.opt_hp":"High Pitch — a 60-second spoken intro (free with the bundle 🎁)",
+  "s1.opt1":"Interactive portfolio (a presentation page about you or your business)","s1.opt2":"Executive summary — short CV (one page)","s1.opt3":"LinkedIn Kit — profile setup","s1.opt4":"The Complete Set","s1.opt_hp":"High Pitch — a 60-second spoken intro (free with the bundle 🎁)",
   "s1.q_type":"Is this about a person or a business? <span class='req'>✦</span><span class='sub'>About you and your career — or about a company</span>",
   "s1.type_person":"About a person (career)","s1.type_business":"About a business / company",
   "s1.q_goal":"What do you want to achieve? <span class='req'>✦</span><span class='sub'>e.g. find a job, win clients, raise prices, look more solid</span>","s1.goal_ph":"In your own words — what should change?",
@@ -469,13 +493,14 @@ var T = {
   "s8.title":"LinkedIn","s8.q_kw":"What words should people find you by? <span class='sub'>e.g. “accountant”, “interior designer”, “real estate lawyer”</span>","s8.q_markets":"Which countries should find you? Are you looking for remote work?","s8.markets_ph":"Poland, all of Europe, remote","s8.q_otw":"Show that you're open to offers? <span class='sub'>Everyone · recruiters only · no</span>","s8.otw_ph":"everyone / recruiters only / no","s8.q_lang":"What language for the profile? <span class='sub'>Need help with posts — we'll discuss separately</span>","s8.lang_ph":"Russian / English / Polish",
   "s9.title":"Files and last bit","s9.desc":"Tick what you have. Send the files themselves in a separate message after the form.","s9.q_have":"What can you send?","s9.opt1":"Good photo (portrait; for a business — photos of work, team, product)","s9.opt2":"Logo","s9.opt3":"Diplomas, certificates","s9.opt4":"Photos, screenshots or video of your work","s9.q_extra":"Anything important we didn't ask?",
   "ui.warn":"⚠️ Don't close the page until you press “Send”. Otherwise your answers won't be saved and you'll have to start over.","ui.submit":"Send questionnaire","ui.sending":"Sending…","ui.privacy":"Answers go straight to Tatsiana's inbox. Shared with no one else.","ui.menu":"Sections",
+  "nav.portfolio":"Interactive Portfolio","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"The Fitting Room","nav.links":"All links",
   "done.h2":"Thank you! Questionnaire sent","done.p":"I'll review your answers and come back with a draft. Please send files (photo, logo, diplomas) in a separate message.",
   "err.required":"Please fill in the required fields (✦). Remaining: ","err.fail":"Couldn't send. Check your connection and try again — or email "
  },
  pl:{
   "hero.h1":"Ankieta do Twojego portfolio",
   "hero.lede":"Pisz prosto, własnymi słowami — krótko też może być. Im konkretniejsza odpowiedź (zwłaszcza liczby), tym mocniejszy efekt. Pytania obowiązkowe oznaczono <b>✦</b>, reszta — opcjonalnie.",
-  "hero.hint":"Wypełniaj spokojnie, we własnym tempie — można odpowiadać w punktach.",
+  "hero.hint":"Wypełniaj spokojnie, we własnym tempie — można odpowiadać w punktach. W trakcie pracy poproszę Cię o 2–3 krótkie potwierdzenia (wybór wariantu albo zwykłe „ok”) — to kilka minut, ale bez nich praca staje.",
   "tag.all":"dla wszystkich","tag.portfolio":"do portfolio","tag.pf_li":"portfolio i LinkedIn","tag.business":"jeśli o firmie",
   "s2.purpose":"To Twoje kontakty i pierwsza linijka-przedstawienie — trafiają na samą górę CV i portfolio.",
   "s3.purpose":"Główna sekcja CV i portfolio. Każde miejsce pracy stanie się osobną kartą z Twoimi wynikami. Może być ich dowolnie wiele — dodawaj przyciskiem poniżej.",
@@ -487,7 +512,7 @@ var T = {
   "ui.add_job":"＋ Dodaj kolejne miejsce pracy","ui.add_project":"＋ Dodaj kolejny projekt",
   "s1.title":"Twoje zamówienie","s1.desc":"Zacznijmy tutaj — by zrozumieć, czego dokładnie potrzebujesz.",
   "s1.q_order":"Czego potrzebujesz? <span class='req'>✦</span>",
-  "s1.opt1":"Interaktywne portfolio (strona-prezentacja o Tobie lub Twoim biznesie)","s1.opt2":"Executive summary — krótkie CV (jedna strona)","s1.opt3":"Konfiguracja profilu LinkedIn","s1.opt4":"Wszystko razem","s1.opt_hp":"High Pitch — 60-sekundowe przedstawienie się (gratis do pakietu 🎁)",
+  "s1.opt1":"Interaktywne portfolio (strona-prezentacja o Tobie lub Twoim biznesie)","s1.opt2":"Executive summary — krótkie CV (jedna strona)","s1.opt3":"Zestaw LinkedIn — konfiguracja profilu","s1.opt4":"Komplet","s1.opt_hp":"High Pitch — 60-sekundowe przedstawienie się (gratis do pakietu 🎁)",
   "s1.q_type":"To o osobie czy o firmie? <span class='req'>✦</span><span class='sub'>O Tobie i Twojej karierze — czy o firmie</span>",
   "s1.type_person":"O osobie (kariera)","s1.type_business":"O firmie",
   "s1.q_goal":"Co chcesz tym osiągnąć? <span class='req'>✦</span><span class='sub'>Np. znaleźć pracę, pozyskać klientów, podnieść ceny, wyglądać solidniej</span>","s1.goal_ph":"Własnymi słowami — co ma się zmienić?",
@@ -513,6 +538,7 @@ var T = {
   "s8.title":"LinkedIn","s8.q_kw":"Po jakich słowach mają Cię znajdować? <span class='sub'>Np. „księgowa”, „projektant wnętrz”, „prawnik od nieruchomości”</span>","s8.q_markets":"Z jakich krajów mają Cię znajdować? Szukasz pracy zdalnej?","s8.markets_ph":"Polska, cała Europa, zdalnie","s8.q_otw":"Pokazywać, że jesteś otwarty/a na oferty? <span class='sub'>Wszystkim · tylko rekruterom · nie</span>","s8.otw_ph":"wszystkim / tylko rekruterom / nie","s8.q_lang":"W jakim języku prowadzić profil? <span class='sub'>Potrzebna pomoc z postami — omówimy osobno</span>","s8.lang_ph":"rosyjski / angielski / polski",
   "s9.title":"Pliki i na koniec","s9.desc":"Zaznacz, co masz. Same pliki prześlij osobną wiadomością po ankiecie.","s9.q_have":"Co możesz przesłać?","s9.opt1":"Dobre zdjęcie (portret; dla firmy — zdjęcia prac, zespołu, produktu)","s9.opt2":"Logo","s9.opt3":"Dyplomy, certyfikaty","s9.opt4":"Zdjęcia, zrzuty ekranu lub wideo prac","s9.q_extra":"Coś ważnego, o co nie zapytaliśmy?",
   "ui.warn":"⚠️ Nie zamykaj strony, dopóki nie klikniesz „Wyślij”. Inaczej odpowiedzi nie zostaną zapisane i trzeba będzie zaczynać od nowa.","ui.submit":"Wyślij ankietę","ui.sending":"Wysyłam…","ui.privacy":"Odpowiedzi trafiają prosto na skrzynkę Tatsiany. Nikomu więcej nie są przekazywane.","ui.menu":"Sekcje",
+  "nav.portfolio":"Interaktywne portfolio","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Przymierzalnia","nav.links":"Wszystkie linki",
   "done.h2":"Dziękujemy! Ankieta wysłana","done.p":"Przejrzę odpowiedzi i wrócę ze szkicem. Pliki (zdjęcie, logo, dyplomy) prześlij proszę osobną wiadomością.",
   "err.required":"Uzupełnij proszę pola obowiązkowe (✦). Pozostało: ","err.fail":"Nie udało się wysłać. Sprawdź połączenie i spróbuj ponownie — albo napisz na "
  }
@@ -735,6 +761,11 @@ form.addEventListener('submit', function(e){
   var nmEl = form.querySelector('[name="Имя и фамилия"]');
   var clientName = nmEl && nmEl.value.trim() ? nmEl.value.trim() : '';
   var data = { _subject:'📋 Новая анкета' + (clientName ? ' — ' + clientName : '') + ' · Tatsiana', _template:'table', _captcha:'false', 'Язык заполнения':lang.toUpperCase() };
+  if(pickedLook){
+    data['✦ Образ из Примерочной'] = LOOK_NAMES[pickedLook] + ' [' + pickedLook + ']';
+    if(pickedMood && MOOD_NAMES[pickedMood]){ data['✦ Настроение образа'] = MOOD_NAMES[pickedMood]; }
+    if(pickedTone){ data['✦ Оттенок акцента'] = pickedTone + '°'; }
+  }
   var contEl = form.querySelector('[name="Контакты"]');
   var em = contEl && contEl.value.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
   if(em){ data._replyto = em[0]; }
@@ -762,6 +793,57 @@ form.addEventListener('submit', function(e){
     });
 });
 
+/* ============ образ из «Примерочной» (fitting-room.html) ============
+   Посетитель выбирает образ на витрине и приходит сюда по ссылке вида
+   ?look=emerald&tone=210&mood=calm — подхватываем и кладём в письмо,
+   чтобы Татьяна сразу видела, какой стиль человек примерил. */
+var LOOK_NAMES = {
+  ultraneon:'Ultraneon (неон, космос)', midnight:'Midnight (строгий тёмный)',
+  emerald:'Emerald (изумруд с золотом)', gilded:'Golden Hour (светлый пергамент)',
+  warm:'Warm Minimal (белый с терракотой)', nordic:'Nord (холодный светлый)'
+};
+var MOOD_NAMES = { calm:'тише', base:'как задумано', vivid:'ярче' };
+var pickedLook = null, pickedTone = null, pickedMood = null;
+
+/* Если человек вписал имя на карточке в Примерочной — подставляем его
+   в первое поле, чтобы не заставлять писать дважды. Только текст,
+   в value, без вставки в разметку. */
+function prefillName(q){
+  var n = q.get('name');
+  if(!n) return;
+  n = n.trim().slice(0, 80);
+  if(!n) return;
+  var el = form.querySelector('[name="Имя и фамилия"]');
+  if(el && el.value.trim() === ''){ el.value = n; }
+}
+
+function captureLook(){
+  var q = null;
+  try{ q = new URLSearchParams(window.location.search); }catch(e){ return; }
+  prefillName(q);
+  var l = q.get('look'), t = q.get('tone'), m = q.get('mood');
+  /* пришёл с витрины — запоминаем; иначе достаём то, что запомнили раньше */
+  if(l && LOOK_NAMES[l]){
+    pickedLook = l;
+    pickedTone = (t && /^\d{1,3}$/.test(t)) ? t : null;
+    pickedMood = (m && MOOD_NAMES[m]) ? m : null;
+    try{
+      localStorage.setItem('anketa-look', pickedLook);
+      if(pickedTone){ localStorage.setItem('anketa-tone', pickedTone); } else { localStorage.removeItem('anketa-tone'); }
+      if(pickedMood){ localStorage.setItem('anketa-mood', pickedMood); } else { localStorage.removeItem('anketa-mood'); }
+    }catch(e){}
+  } else {
+    try{
+      var sv = localStorage.getItem('anketa-look');
+      if(sv && LOOK_NAMES[sv]){
+        pickedLook = sv;
+        pickedTone = localStorage.getItem('anketa-tone');
+        pickedMood = localStorage.getItem('anketa-mood');
+      }
+    }catch(e){}
+  }
+}
+
 /* ============ init from storage ============ */
 (function init(){
   var st=null, sl=null;
@@ -769,6 +851,7 @@ form.addEventListener('submit', function(e){
   applyTheme(st === 'light' ? 'light' : 'dark');
   applyLang(sl && T[sl] ? sl : 'en');
   applyConditional();
+  captureLook();
 })();
 </script>
 
