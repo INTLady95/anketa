@@ -706,7 +706,7 @@ refreshEntries('exp-list'); refreshEntries('proj-list');
 /* ============ submit → email via FormSubmit ============ */
 var errBox = document.getElementById('err');
 var btn = document.getElementById('send-btn');
-var ENDPOINT = 'https://formsubmit.co/ajax/zhukavetst@gmail.com';
+var ENDPOINT = 'https://formsubmit.co/ajax/marcin.tatsiana@gmail.com';
 form.addEventListener('submit', function(e){
   e.preventDefault();
   errBox.style.display = 'none';
@@ -756,7 +756,7 @@ form.addEventListener('submit', function(e){
     })
     .catch(function(){
       btn.disabled = false; btn.textContent = T[lang]['ui.submit'];
-      errBox.innerHTML = T[lang]['err.fail'] + '<a href="mailto:zhukavetst@gmail.com">zhukavetst@gmail.com</a>.';
+      errBox.innerHTML = T[lang]['err.fail'] + '<a href="mailto:marcin.tatsiana@gmail.com">marcin.tatsiana@gmail.com</a>.';
       errBox.style.display = 'block';
     });
 });
