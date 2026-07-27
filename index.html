@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Анкета · Tatsiana Zhukavets</title>
+<title>Order form · Tatsiana Zhukavets</title>
 <style>
   /* ===== TWILIGHT INDIGO (default dark, blue-violet) ===== */
   :root{
@@ -92,6 +92,10 @@
     background:var(--field-bg); border:1px solid var(--field-border); color:var(--ink); font-size:1rem; line-height:1}
 
   .wrap{max-width:760px; margin:0 auto; padding:40px 22px 120px}
+  /* on a big screen: wider column and larger base type, so nothing needs zooming.
+     everything below is sized in rem, so bumping the root scales the whole form. */
+  @media (min-width:1000px){ html{font-size:18px} .wrap{max-width:880px} }
+  @media (min-width:1400px){ html{font-size:19px} .wrap{max-width:940px} }
   header.hero{text-align:center; margin-bottom:8px}
   .kicker{font-size:.72rem; letter-spacing:.32em; text-transform:uppercase; color:var(--gold);
     display:inline-block; padding:6px 16px; border:1px solid var(--line); border-radius:999px; margin-bottom:20px}
@@ -206,9 +210,9 @@
 
 <div id="controls">
   <div class="grp" id="langs">
-    <button class="langbtn" data-lang="ru">RU</button>
     <button class="langbtn active" data-lang="en">EN</button>
     <button class="langbtn" data-lang="pl">PL</button>
+    <button class="langbtn" data-lang="ru">RU</button>
   </div>
   <button id="theme-btn" title="Светлая тема">☀</button>
 </div>
@@ -399,7 +403,7 @@
     </span>
   </nav>
 
-  <footer>Анкета · <span class="name">TATSIANA ZHUKAVETS</span> · Portfolio · CV · LinkedIn</footer>
+  <footer>Order form · <span class="name">TATSIANA ZHUKAVETS</span> · Portfolio · CV · LinkedIn</footer>
 </div>
 
 <button id="totop" title="Наверх">↑</button>
@@ -408,7 +412,7 @@
 /* ============ i18n dictionary (field NAMES stay Russian for the email) ============ */
 var T = {
  ru:{
-  "hero.h1":"Анкета для вашего портфолио",
+  "hero.h1":"Форма заказа",
   "hero.lede":"Пишите просто, своими словами — можно коротко. Чем конкретнее ответ (особенно цифры), тем сильнее результат. Обязательные вопросы помечены <b>✦</b>, остальное — по желанию.",
   "hero.hint":"Заполняйте спокойно, в своём темпе — можно отвечать по пунктам. Пока делаю работу, попрошу у вас 2–3 коротких подтверждения по ходу (например, выбрать вариант или сказать «ок») — это займёт пару минут, но без них работа встанет.",
   "tag.all":"нужно всем","tag.portfolio":"для портфолио","tag.pf_li":"портфолио и LinkedIn","tag.business":"если про бизнес",
@@ -443,17 +447,17 @@ var T = {
   "s4.q_cert":"Курсы, сертификаты, награды, публикации <span class='sub'>Если есть — с датами. Нет — можно пропустить</span>","s4.q_skills":"Ваши главные навыки — по важности <span class='req'>✦</span><span class='sub'>Что поставить на первое место. Можно добавить 2–3 сильные стороны характера</span>","s4.skills_ph":"самое важное — первым",
   "s5.title":"Ваши проекты","s5.desc":"Для портфолио-сайта. Опишите проекты, которые хотите показать отдельно.",
   "s5.q_name":"Название проекта и ваша роль в нём","s5.q_task":"Что нужно было сделать? Какая была задача или проблема?","s5.q_did":"Что конкретно сделали вы? <span class='sub'>Ваши шаги, ваш вклад</span>","s5.q_result":"Что получилось в итоге <span class='sub'>Лучше в цифрах и «было → стало»</span>","s5.q_links":"Ссылки, фото, скриншоты по проекту","s5.q_review":"Отзыв клиента или руководителя <span class='sub'>Дословно, если есть</span>","s5.q_more":"Другие проекты <span class='sub'>Так же</span>",
-  "s6.title":"О бизнесе","s6.desc":"Заполняйте, если анкета про компанию. Иначе пропустите.","s6.q_what":"Чем занимается бизнес — одним предложением","s6.q_prod":"Что продаёте: товары или услуги и цены <span class='sub'>Можно примерный диапазон</span>","s6.q_geo":"Где работаете, сколько клиентов, кого можно назвать","s6.q_why":"Почему выбирают вас, а не других? <span class='sub'>2–3 конкретные причины</span>","s6.q_proof":"Отзывы и цифры, которые вызывают доверие <span class='sub'>Сколько заказов, лет на рынке, довольных клиентов</span>","s6.q_cta":"Что человек должен сделать, посмотрев материалы?","s6.cta_ph":"написать / позвонить / заказать","s6.q_decide":"Кто у вас утверждает тексты и дизайн?",
+  "s6.title":"О бизнесе","s6.desc":"Заполняйте, если форма про компанию. Иначе пропустите.","s6.q_what":"Чем занимается бизнес — одним предложением","s6.q_prod":"Что продаёте: товары или услуги и цены <span class='sub'>Можно примерный диапазон</span>","s6.q_geo":"Где работаете, сколько клиентов, кого можно назвать","s6.q_why":"Почему выбирают вас, а не других? <span class='sub'>2–3 конкретные причины</span>","s6.q_proof":"Отзывы и цифры, которые вызывают доверие <span class='sub'>Сколько заказов, лет на рынке, довольных клиентов</span>","s6.q_cta":"Что человек должен сделать, посмотрев материалы?","s6.cta_ph":"написать / позвонить / заказать","s6.q_decide":"Кто у вас утверждает тексты и дизайн?",
   "s7.title":"Как это должно выглядеть","s7.q_words":"3–5 слов, которыми вас описали бы коллеги и клиенты <span class='req'>✦</span>","s7.q_edge":"Чем вы отличаетесь от других? В чём ваша «фишка»?","s7.q_story":"Ваша история: как вы пришли к тому, чем занимаетесь? <span class='sub'>И что для вас важно в работе. 2–5 предложений — это оживляет портфолио</span>","s7.q_style":"Как хотите выглядеть? <span class='req'>✦</span><span class='sub'>Строго и по-деловому · тепло · ярко и смело · просто/минимализм · дорого. Любимые цвета? Есть логотип?</span>","s7.style_ph":"например: строго и дорого, тёмно-синий и золото, логотип есть","s7.q_refs":"Сайты или бренды, которые вам нравятся <span class='sub'>Ссылки и что именно нравится</span>","s7.q_taboo":"Что <b>нельзя</b> писать или показывать? <span class='sub'>Что скрыть, какие темы или места не упоминать</span>",
   "s8.title":"LinkedIn","s8.q_kw":"По каким словам вас должны находить? <span class='sub'>Например: «бухгалтер», «дизайнер интерьеров», «юрист по недвижимости»</span>","s8.q_markets":"Из каких стран вас должны находить? Ищете удалённую работу?","s8.markets_ph":"Польша, вся Европа, удалённо","s8.q_otw":"Показывать, что открыты к предложениям? <span class='sub'>Всем · только рекрутёрам · не надо</span>","s8.otw_ph":"всем / только рекрутёрам / не надо","s8.q_lang":"На каком языке вести профиль? <span class='sub'>Нужна ли помощь с постами — обсудим отдельно</span>","s8.lang_ph":"русский / английский / польский",
-  "s9.title":"Файлы и последнее","s9.desc":"Отметьте, что у вас есть. Сами файлы пришлите отдельным сообщением после анкеты.","s9.q_have":"Что можете прислать?","s9.opt1":"Хорошее фото (портрет; для бизнеса — фото работ, команды, товара)","s9.opt2":"Логотип","s9.opt3":"Дипломы, сертификаты","s9.opt4":"Фото, скриншоты или видео ваших работ","s9.q_extra":"Что-то важное, о чём мы не спросили?",
-  "ui.warn":"⚠️ Не закрывайте страницу, пока не нажмёте «Отправить». Иначе ответы не сохранятся, и заполнять придётся заново.","ui.submit":"Отправить анкету","ui.sending":"Отправляю…","ui.privacy":"Ответы придут напрямую на почту Tatsiana. Больше никому не передаются.","ui.menu":"Разделы",
+  "s9.title":"Файлы и последнее","s9.desc":"Отметьте, что у вас есть. Сами файлы пришлите отдельным сообщением после формы.","s9.q_have":"Что можете прислать?","s9.opt1":"Хорошее фото (портрет; для бизнеса — фото работ, команды, товара)","s9.opt2":"Логотип","s9.opt3":"Дипломы, сертификаты","s9.opt4":"Фото, скриншоты или видео ваших работ","s9.q_extra":"Что-то важное, о чём мы не спросили?",
+  "ui.warn":"⚠️ Не закрывайте страницу, пока не нажмёте «Отправить». Иначе ответы не сохранятся, и заполнять придётся заново.","ui.submit":"Отправить форму","ui.sending":"Отправляю…","ui.privacy":"Ответы придут напрямую на почту Tatsiana. Больше никому не передаются.","ui.menu":"Разделы",
   "nav.portfolio":"Интерактивное портфолио","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Примерочная","nav.links":"Все ссылки",
-  "done.h2":"Спасибо! Анкета отправлена","done.p":"Я изучу ответы и вернусь с черновиком. Файлы (фото, логотип, дипломы) пришлите, пожалуйста, отдельным сообщением.",
+  "done.h2":"Спасибо! Форма отправлена","done.p":"Я изучу ответы и вернусь с черновиком. Файлы (фото, логотип, дипломы) пришлите, пожалуйста, отдельным сообщением.",
   "err.required":"Пожалуйста, заполните обязательные поля (✦). Осталось: ","err.fail":"Не удалось отправить. Проверьте интернет и попробуйте ещё раз — или напишите на "
  },
  en:{
-  "hero.h1":"Questionnaire for your portfolio",
+  "hero.h1":"Order form",
   "hero.lede":"Write simply, in your own words — short is fine. The more specific your answer (especially numbers), the stronger the result. Required questions are marked <b>✦</b>, the rest is optional.",
   "hero.hint":"Take your time, at your own pace — bullet points are perfectly fine. While I work, I'll ask you for 2–3 short confirmations along the way (picking an option, or just saying “ok”) — a couple of minutes each, but the work stops without them.",
   "tag.all":"everyone","tag.portfolio":"for portfolio","tag.pf_li":"portfolio & LinkedIn","tag.business":"if about a business",
@@ -488,17 +492,17 @@ var T = {
   "s4.q_cert":"Courses, certificates, awards, publications <span class='sub'>If any — with dates. If none, skip</span>","s4.q_skills":"Your main skills — by importance <span class='req'>✦</span><span class='sub'>What comes first. You can add 2–3 personal strengths</span>","s4.skills_ph":"most important first",
   "s5.title":"Your projects","s5.desc":"For a portfolio website. Describe projects you want to feature separately.",
   "s5.q_name":"Project name and your role in it","s5.q_task":"What needed to be done? What was the task or problem?","s5.q_did":"What exactly did you do? <span class='sub'>Your steps, your contribution</span>","s5.q_result":"What came out of it <span class='sub'>Ideally in numbers and “before → after”</span>","s5.q_links":"Links, photos, screenshots for the project","s5.q_review":"Client or manager testimonial <span class='sub'>Word for word, if any</span>","s5.q_more":"Other projects <span class='sub'>Same way</span>",
-  "s6.title":"About the business","s6.desc":"Fill in if the questionnaire is about a company. Otherwise skip.","s6.q_what":"What the business does — in one sentence","s6.q_prod":"What you sell: products or services and prices <span class='sub'>A rough range is fine</span>","s6.q_geo":"Where you work, how many clients, who can be named","s6.q_why":"Why do people choose you over others? <span class='sub'>2–3 concrete reasons</span>","s6.q_proof":"Reviews and numbers that build trust <span class='sub'>How many orders, years in business, happy clients</span>","s6.q_cta":"What should a person do after seeing your materials?","s6.cta_ph":"write / call / order","s6.q_decide":"Who approves the texts and design?",
+  "s6.title":"About the business","s6.desc":"Fill in if the form is about a company. Otherwise skip.","s6.q_what":"What the business does — in one sentence","s6.q_prod":"What you sell: products or services and prices <span class='sub'>A rough range is fine</span>","s6.q_geo":"Where you work, how many clients, who can be named","s6.q_why":"Why do people choose you over others? <span class='sub'>2–3 concrete reasons</span>","s6.q_proof":"Reviews and numbers that build trust <span class='sub'>How many orders, years in business, happy clients</span>","s6.q_cta":"What should a person do after seeing your materials?","s6.cta_ph":"write / call / order","s6.q_decide":"Who approves the texts and design?",
   "s7.title":"How it should look","s7.q_words":"3–5 words colleagues and clients would use for you <span class='req'>✦</span>","s7.q_edge":"What makes you different from others? What's your edge?","s7.q_story":"Your story: how you came to do what you do? <span class='sub'>And what matters to you in your work. 2–5 sentences — this brings a portfolio to life</span>","s7.q_style":"How do you want to look? <span class='req'>✦</span><span class='sub'>Formal · warm · bold · simple/minimal · premium. Favorite colors? Do you have a logo?</span>","s7.style_ph":"e.g. formal and premium, navy and gold, I have a logo","s7.q_refs":"Websites or brands you like <span class='sub'>Links and what exactly you like</span>","s7.q_taboo":"What <b>must not</b> be written or shown? <span class='sub'>What to hide, which topics or places not to mention</span>",
   "s8.title":"LinkedIn","s8.q_kw":"What words should people find you by? <span class='sub'>e.g. “accountant”, “interior designer”, “real estate lawyer”</span>","s8.q_markets":"Which countries should find you? Are you looking for remote work?","s8.markets_ph":"Poland, all of Europe, remote","s8.q_otw":"Show that you're open to offers? <span class='sub'>Everyone · recruiters only · no</span>","s8.otw_ph":"everyone / recruiters only / no","s8.q_lang":"What language for the profile? <span class='sub'>Need help with posts — we'll discuss separately</span>","s8.lang_ph":"Russian / English / Polish",
   "s9.title":"Files and last bit","s9.desc":"Tick what you have. Send the files themselves in a separate message after the form.","s9.q_have":"What can you send?","s9.opt1":"Good photo (portrait; for a business — photos of work, team, product)","s9.opt2":"Logo","s9.opt3":"Diplomas, certificates","s9.opt4":"Photos, screenshots or video of your work","s9.q_extra":"Anything important we didn't ask?",
-  "ui.warn":"⚠️ Don't close the page until you press “Send”. Otherwise your answers won't be saved and you'll have to start over.","ui.submit":"Send questionnaire","ui.sending":"Sending…","ui.privacy":"Answers go straight to Tatsiana's inbox. Shared with no one else.","ui.menu":"Sections",
+  "ui.warn":"⚠️ Don't close the page until you press “Send”. Otherwise your answers won't be saved and you'll have to start over.","ui.submit":"Send the form","ui.sending":"Sending…","ui.privacy":"Answers go straight to Tatsiana's inbox. Shared with no one else.","ui.menu":"Sections",
   "nav.portfolio":"Interactive Portfolio","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"The Fitting Room","nav.links":"All links",
-  "done.h2":"Thank you! Questionnaire sent","done.p":"I'll review your answers and come back with a draft. Please send files (photo, logo, diplomas) in a separate message.",
+  "done.h2":"Thank you! Form sent","done.p":"I'll review your answers and come back with a draft. Please send files (photo, logo, diplomas) in a separate message.",
   "err.required":"Please fill in the required fields (✦). Remaining: ","err.fail":"Couldn't send. Check your connection and try again — or email "
  },
  pl:{
-  "hero.h1":"Ankieta do Twojego portfolio",
+  "hero.h1":"Formularz zamówienia",
   "hero.lede":"Pisz prosto, własnymi słowami — krótko też może być. Im konkretniejsza odpowiedź (zwłaszcza liczby), tym mocniejszy efekt. Pytania obowiązkowe oznaczono <b>✦</b>, reszta — opcjonalnie.",
   "hero.hint":"Wypełniaj spokojnie, we własnym tempie — można odpowiadać w punktach. W trakcie pracy poproszę Cię o 2–3 krótkie potwierdzenia (wybór wariantu albo zwykłe „ok”) — to kilka minut, ale bez nich praca staje.",
   "tag.all":"dla wszystkich","tag.portfolio":"do portfolio","tag.pf_li":"portfolio i LinkedIn","tag.business":"jeśli o firmie",
@@ -533,13 +537,13 @@ var T = {
   "s4.q_cert":"Kursy, certyfikaty, nagrody, publikacje <span class='sub'>Jeśli są — z datami. Jeśli nie, pomiń</span>","s4.q_skills":"Twoje główne umiejętności — wg ważności <span class='req'>✦</span><span class='sub'>Co na pierwszym miejscu. Możesz dodać 2–3 mocne cechy charakteru</span>","s4.skills_ph":"najważniejsze na początku",
   "s5.title":"Twoje projekty","s5.desc":"Do strony-portfolio. Opisz projekty, które chcesz pokazać osobno.",
   "s5.q_name":"Nazwa projektu i Twoja rola","s5.q_task":"Co trzeba było zrobić? Jakie było zadanie lub problem?","s5.q_did":"Co dokładnie zrobiłeś/aś? <span class='sub'>Twoje kroki, Twój wkład</span>","s5.q_result":"Co z tego wyszło <span class='sub'>Najlepiej w liczbach i „przed → po”</span>","s5.q_links":"Linki, zdjęcia, zrzuty ekranu projektu","s5.q_review":"Opinia klienta lub przełożonego <span class='sub'>Dosłownie, jeśli jest</span>","s5.q_more":"Inne projekty <span class='sub'>Tak samo</span>",
-  "s6.title":"O firmie","s6.desc":"Wypełnij, jeśli ankieta jest o firmie. W innym wypadku pomiń.","s6.q_what":"Czym zajmuje się firma — w jednym zdaniu","s6.q_prod":"Co sprzedajesz: produkty lub usługi i ceny <span class='sub'>Może być przybliżony zakres</span>","s6.q_geo":"Gdzie działasz, ilu klientów, kogo można wymienić","s6.q_why":"Dlaczego wybierają Ciebie, a nie innych? <span class='sub'>2–3 konkretne powody</span>","s6.q_proof":"Opinie i liczby budujące zaufanie <span class='sub'>Ile zamówień, lat na rynku, zadowolonych klientów</span>","s6.q_cta":"Co człowiek ma zrobić po obejrzeniu materiałów?","s6.cta_ph":"napisać / zadzwonić / zamówić","s6.q_decide":"Kto zatwierdza teksty i projekt?",
+  "s6.title":"O firmie","s6.desc":"Wypełnij, jeśli formularz jest o firmie. W innym wypadku pomiń.","s6.q_what":"Czym zajmuje się firma — w jednym zdaniu","s6.q_prod":"Co sprzedajesz: produkty lub usługi i ceny <span class='sub'>Może być przybliżony zakres</span>","s6.q_geo":"Gdzie działasz, ilu klientów, kogo można wymienić","s6.q_why":"Dlaczego wybierają Ciebie, a nie innych? <span class='sub'>2–3 konkretne powody</span>","s6.q_proof":"Opinie i liczby budujące zaufanie <span class='sub'>Ile zamówień, lat na rynku, zadowolonych klientów</span>","s6.q_cta":"Co człowiek ma zrobić po obejrzeniu materiałów?","s6.cta_ph":"napisać / zadzwonić / zamówić","s6.q_decide":"Kto zatwierdza teksty i projekt?",
   "s7.title":"Jak to ma wyglądać","s7.q_words":"3–5 słów, którymi opisaliby Cię współpracownicy i klienci <span class='req'>✦</span>","s7.q_edge":"Czym różnisz się od innych? Na czym polega Twój atut?","s7.q_story":"Twoja historia: jak doszedłeś/aś do tego, co robisz? <span class='sub'>I co jest dla Ciebie ważne w pracy. 2–5 zdań — to ożywia portfolio</span>","s7.q_style":"Jak chcesz wyglądać? <span class='req'>✦</span><span class='sub'>Formalnie · ciepło · odważnie · prosto/minimalizm · premium. Ulubione kolory? Masz logo?</span>","s7.style_ph":"np. formalnie i premium, granat i złoto, mam logo","s7.q_refs":"Strony lub marki, które Ci się podobają <span class='sub'>Linki i co dokładnie się podoba</span>","s7.q_taboo":"Czego <b>nie wolno</b> pisać ani pokazywać? <span class='sub'>Co ukryć, jakich tematów lub miejsc nie wspominać</span>",
   "s8.title":"LinkedIn","s8.q_kw":"Po jakich słowach mają Cię znajdować? <span class='sub'>Np. „księgowa”, „projektant wnętrz”, „prawnik od nieruchomości”</span>","s8.q_markets":"Z jakich krajów mają Cię znajdować? Szukasz pracy zdalnej?","s8.markets_ph":"Polska, cała Europa, zdalnie","s8.q_otw":"Pokazywać, że jesteś otwarty/a na oferty? <span class='sub'>Wszystkim · tylko rekruterom · nie</span>","s8.otw_ph":"wszystkim / tylko rekruterom / nie","s8.q_lang":"W jakim języku prowadzić profil? <span class='sub'>Potrzebna pomoc z postami — omówimy osobno</span>","s8.lang_ph":"rosyjski / angielski / polski",
   "s9.title":"Pliki i na koniec","s9.desc":"Zaznacz, co masz. Same pliki prześlij osobną wiadomością po ankiecie.","s9.q_have":"Co możesz przesłać?","s9.opt1":"Dobre zdjęcie (portret; dla firmy — zdjęcia prac, zespołu, produktu)","s9.opt2":"Logo","s9.opt3":"Dyplomy, certyfikaty","s9.opt4":"Zdjęcia, zrzuty ekranu lub wideo prac","s9.q_extra":"Coś ważnego, o co nie zapytaliśmy?",
-  "ui.warn":"⚠️ Nie zamykaj strony, dopóki nie klikniesz „Wyślij”. Inaczej odpowiedzi nie zostaną zapisane i trzeba będzie zaczynać od nowa.","ui.submit":"Wyślij ankietę","ui.sending":"Wysyłam…","ui.privacy":"Odpowiedzi trafiają prosto na skrzynkę Tatsiany. Nikomu więcej nie są przekazywane.","ui.menu":"Sekcje",
+  "ui.warn":"⚠️ Nie zamykaj strony, dopóki nie klikniesz „Wyślij”. Inaczej odpowiedzi nie zostaną zapisane i trzeba będzie zaczynać od nowa.","ui.submit":"Wyślij formularz","ui.sending":"Wysyłam…","ui.privacy":"Odpowiedzi trafiają prosto na skrzynkę Tatsiany. Nikomu więcej nie są przekazywane.","ui.menu":"Sekcje",
   "nav.portfolio":"Interaktywne portfolio","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Przymierzalnia","nav.links":"Wszystkie linki",
-  "done.h2":"Dziękujemy! Ankieta wysłana","done.p":"Przejrzę odpowiedzi i wrócę ze szkicem. Pliki (zdjęcie, logo, dyplomy) prześlij proszę osobną wiadomością.",
+  "done.h2":"Dziękujemy! Formularz wysłany","done.p":"Przejrzę odpowiedzi i wrócę ze szkicem. Pliki (zdjęcie, logo, dyplomy) prześlij proszę osobną wiadomością.",
   "err.required":"Uzupełnij proszę pola obowiązkowe (✦). Pozostało: ","err.fail":"Nie udało się wysłać. Sprawdź połączenie i spróbuj ponownie — albo napisz na "
  }
 };
@@ -760,7 +764,7 @@ form.addEventListener('submit', function(e){
   nameEntries('proj-list', 'Проект');
   var nmEl = form.querySelector('[name="Имя и фамилия"]');
   var clientName = nmEl && nmEl.value.trim() ? nmEl.value.trim() : '';
-  var data = { _subject:'📋 Новая анкета' + (clientName ? ' — ' + clientName : '') + ' · Tatsiana', _template:'table', _captcha:'false', 'Язык заполнения':lang.toUpperCase() };
+  var data = { _subject:'📋 New order form' + (clientName ? ' — ' + clientName : '') + ' · Tatsiana', _template:'table', _captcha:'false', 'Язык заполнения':lang.toUpperCase() };
   if(pickedLook){
     data['✦ Образ из Примерочной'] = LOOK_NAMES[pickedLook] + ' [' + pickedLook + ']';
     if(pickedMood && MOOD_NAMES[pickedMood]){ data['✦ Настроение образа'] = MOOD_NAMES[pickedMood]; }
@@ -788,7 +792,7 @@ form.addEventListener('submit', function(e){
     })
     .catch(function(){
       btn.disabled = false; btn.textContent = T[lang]['ui.submit'];
-      errBox.innerHTML = T[lang]['err.fail'] + '<a href="mailto:marcin.tatsiana@gmail.com">marcin.tatsiana@gmail.com</a>.';
+      errBox.innerHTML = T[lang]['err.fail'] + '<a href="mailto:zhukavetst@gmail.com">zhukavetst@gmail.com</a>.';
       errBox.style.display = 'block';
     });
 });
