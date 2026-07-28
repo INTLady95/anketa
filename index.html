@@ -773,6 +773,9 @@ form.addEventListener('submit', function(e){
     data['✦ Образ из Шоурума'] = LOOK_NAMES[pickedLook] + ' [' + pickedLook + ']';
     if(pickedMood && MOOD_NAMES[pickedMood]){ data['✦ Настроение образа'] = MOOD_NAMES[pickedMood]; }
     if(pickedTone){ data['✦ Оттенок акцента'] = pickedTone + '°'; }
+    if(pickedScene){ data['✦ Цвет сцены'] = (pickedScene > 0 ? '+' : '') + pickedScene + '°'; }
+    if(pickedLight){ data['✦ Свет'] = (pickedLight > 0 ? 'светлее на ' : 'темнее на ') + Math.abs(pickedLight) + '%'; }
+    if(pickedGrad && GRAD_NAMES[pickedGrad]){ data['✦ Градиент'] = GRAD_NAMES[pickedGrad]; }
   }
   var contEl = form.querySelector('[name="Контакты"]');
   var em = contEl && contEl.value.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
@@ -803,7 +806,7 @@ form.addEventListener('submit', function(e){
 
 /* ============ образ из «Примерочной» (fitting-room.html) ============
    Посетитель выбирает образ на витрине и приходит сюда по ссылке вида
-   ?look=emerald&tone=210&mood=calm — подхватываем и кладём в письмо,
+   ?look=emerald&tone=210&scene=-40&light=-20&grad=soft&mood=calm — подхватываем и кладём в письмо,
    чтобы Татьяна сразу видела, какой стиль человек примерил. */
 var LOOK_NAMES = {
   ultraneon:'Ultraneon (неон, космос)', midnight:'Midnight (строгий тёмный)',
@@ -811,7 +814,16 @@ var LOOK_NAMES = {
   warm:'Warm Minimal (белый с терракотой)', nordic:'Nord (холодный светлый)'
 };
 var MOOD_NAMES = { calm:'тише', base:'как задумано', vivid:'ярче' };
+var GRAD_NAMES = { soft:'мягкий', strong:'заметный' };
 var pickedLook = null, pickedTone = null, pickedMood = null;
+var pickedScene = null, pickedLight = null, pickedGrad = null;
+
+/* число из адреса: только целое в разумных пределах, иначе — ничего */
+function numParam(v, min, max){
+  if(!v || !/^-?\d{1,3}$/.test(v)) return null;
+  var n = parseInt(v, 10);
+  return (n >= min && n <= max && n !== 0) ? n : null;
+}
 
 /* Если человек вписал имя на карточке в Примерочной — подставляем его
    в первое поле, чтобы не заставлять писать дважды. Только текст,
@@ -825,20 +837,32 @@ function prefillName(q){
   if(el && el.value.trim() === ''){ el.value = n; }
 }
 
+function saveOrDrop(key, value){
+  if(value || value === 0){ localStorage.setItem(key, String(value)); }
+  else { localStorage.removeItem(key); }
+}
+
 function captureLook(){
   var q = null;
   try{ q = new URLSearchParams(window.location.search); }catch(e){ return; }
   prefillName(q);
   var l = q.get('look'), t = q.get('tone'), m = q.get('mood');
+  var sc = q.get('scene'), li = q.get('light'), gr = q.get('grad');
   /* пришёл с витрины — запоминаем; иначе достаём то, что запомнили раньше */
   if(l && LOOK_NAMES[l]){
     pickedLook = l;
     pickedTone = (t && /^\d{1,3}$/.test(t)) ? t : null;
     pickedMood = (m && MOOD_NAMES[m]) ? m : null;
+    pickedScene = numParam(sc, -180, 180);
+    pickedLight = numParam(li, -35, 35);
+    pickedGrad = (gr && GRAD_NAMES[gr]) ? gr : null;
     try{
       localStorage.setItem('anketa-look', pickedLook);
-      if(pickedTone){ localStorage.setItem('anketa-tone', pickedTone); } else { localStorage.removeItem('anketa-tone'); }
-      if(pickedMood){ localStorage.setItem('anketa-mood', pickedMood); } else { localStorage.removeItem('anketa-mood'); }
+      saveOrDrop('anketa-tone', pickedTone);
+      saveOrDrop('anketa-mood', pickedMood);
+      saveOrDrop('anketa-scene', pickedScene);
+      saveOrDrop('anketa-light', pickedLight);
+      saveOrDrop('anketa-grad', pickedGrad);
     }catch(e){}
   } else {
     try{
@@ -847,6 +871,10 @@ function captureLook(){
         pickedLook = sv;
         pickedTone = localStorage.getItem('anketa-tone');
         pickedMood = localStorage.getItem('anketa-mood');
+        pickedScene = numParam(localStorage.getItem('anketa-scene'), -180, 180);
+        pickedLight = numParam(localStorage.getItem('anketa-light'), -35, 35);
+        var sg = localStorage.getItem('anketa-grad');
+        pickedGrad = (sg && GRAD_NAMES[sg]) ? sg : null;
       }
     }catch(e){}
   }
