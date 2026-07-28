@@ -193,12 +193,18 @@
   footer .name{color:var(--gold); letter-spacing:.05em}
 
   /* ── тихая полоска-подпись: связывает публичные страницы между собой ── */
-  .sitenav{margin:34px 0 0; padding:18px 0 0; display:flex; flex-wrap:wrap; align-items:center;
-    gap:10px 22px; border-top:1px solid var(--line-soft); font-size:12.5px; line-height:1.7; text-align:left}
-  .sitenav .sn-links{display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; min-width:0}
-  .sitenav a{color:var(--muted); text-decoration:none; border-bottom:1px solid transparent;
-    transition:color .18s, border-color .18s}
-  .sitenav a:hover{color:var(--gold); border-bottom-color:var(--line)}
+  .sitenav{margin:34px 0 0; padding:18px 0 0; display:flex; flex-direction:column; align-items:center;
+    gap:10px; border-top:1px solid var(--line-soft); font-size:12.5px; line-height:1.7; text-align:center}
+  .sitenav .sn-hint{color:var(--muted); font-size:12px; letter-spacing:.01em}
+  .sitenav .sn-links{display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+    gap:6px 18px; min-width:0}
+  .sitenav a{color:var(--gold); text-decoration:underline; text-decoration-style:dotted;
+    text-decoration-thickness:1px; text-underline-offset:.38em;
+    text-decoration-color:color-mix(in srgb, var(--gold) 55%, transparent);
+    white-space:nowrap; transition:color .18s, text-decoration-color .18s}
+  .sitenav a::after{content:"↗"; font-size:.85em; margin-left:4px; opacity:.65}
+  .sitenav a:hover{color:var(--accent-soft); text-decoration-style:solid; text-decoration-color:var(--gold)}
+  .sitenav a:hover::after{opacity:1}
   .sitenav .sn-here{color:var(--muted); opacity:.45}
 </style>
 </head>
@@ -391,12 +397,13 @@
 
   <!-- ── полоска-подпись: переход на остальные публичные страницы (отдельный блок, формы не касается) ── -->
   <nav class="sitenav" aria-label="More pages">
+    <span class="sn-hint" data-i18n="nav.hint"></span>
     <span class="sn-links">
-      <a href="https://intlady95.github.io/portfolio/" data-i18n="nav.portfolio"></a>
-      <a href="https://intlady95.github.io/summary/" data-i18n="nav.summary"></a>
-      <a href="https://intlady95.github.io/high-pitch/" data-i18n="nav.pitch"></a>
-      <a href="https://intlady95.github.io/fitting-room/" data-i18n="nav.fitting"></a>
-      <a href="https://intlady95.github.io/links/" data-i18n="nav.links"></a>
+      <a href="https://intlady95.github.io/portfolio/" target="_blank" rel="noopener" data-i18n="nav.portfolio"></a>
+      <a href="https://intlady95.github.io/summary/" target="_blank" rel="noopener" data-i18n="nav.summary"></a>
+      <a href="https://intlady95.github.io/high-pitch/" target="_blank" rel="noopener" data-i18n="nav.pitch"></a>
+      <a href="https://intlady95.github.io/fitting-room/" target="_blank" rel="noopener" data-i18n="nav.fitting"></a>
+      <a href="https://intlady95.github.io/links/" target="_blank" rel="noopener" data-i18n="nav.links"></a>
     </span>
   </nav>
 
@@ -449,7 +456,7 @@ var T = {
   "s8.title":"LinkedIn","s8.q_kw":"По каким словам вас должны находить? <span class='sub'>Например: «бухгалтер», «дизайнер интерьеров», «юрист по недвижимости»</span>","s8.q_markets":"Из каких стран вас должны находить? Ищете удалённую работу?","s8.markets_ph":"Польша, вся Европа, удалённо","s8.q_otw":"Показывать, что открыты к предложениям? <span class='sub'>Всем · только рекрутёрам · не надо</span>","s8.otw_ph":"всем / только рекрутёрам / не надо","s8.q_lang":"На каком языке вести профиль? <span class='sub'>Нужна ли помощь с постами — обсудим отдельно</span>","s8.lang_ph":"русский / английский / польский",
   "s9.title":"Файлы и последнее","s9.desc":"Отметьте, что у вас есть. Сами файлы пришлите отдельным сообщением после формы.","s9.q_have":"Что можете прислать?","s9.opt1":"Хорошее фото (портрет; для бизнеса — фото работ, команды, товара)","s9.opt2":"Логотип","s9.opt3":"Дипломы, сертификаты","s9.opt4":"Фото, скриншоты или видео ваших работ","s9.q_extra":"Что-то важное, о чём мы не спросили?",
   "ui.warn":"⚠️ Не закрывайте страницу, пока не нажмёте «Отправить». Иначе ответы не сохранятся, и заполнять придётся заново.","ui.submit":"Отправить форму","ui.sending":"Отправляю…","ui.privacy":"Ответы придут напрямую на почту Tatsiana. Больше никому не передаются.","ui.menu":"Разделы",
-  "nav.portfolio":"Интерактивное портфолио","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Шоурум портфолио","nav.links":"Все ссылки",
+  "nav.hint":"Живые примеры работ — откройте любой, форма останется на месте:","nav.portfolio":"Интерактивное портфолио","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Шоурум портфолио","nav.links":"Все ссылки",
   "done.h2":"Спасибо! Форма отправлена","done.p":"Я изучу ответы и вернусь с черновиком. Файлы (фото, логотип, дипломы) пришлите, пожалуйста, отдельным сообщением.",
   "err.required":"Пожалуйста, заполните обязательные поля (✦). Осталось: ","err.fail":"Не удалось отправить. Проверьте интернет и попробуйте ещё раз — или напишите на "
  },
@@ -494,7 +501,7 @@ var T = {
   "s8.title":"LinkedIn","s8.q_kw":"What words should people find you by? <span class='sub'>e.g. “accountant”, “interior designer”, “real estate lawyer”</span>","s8.q_markets":"Which countries should find you? Are you looking for remote work?","s8.markets_ph":"Poland, all of Europe, remote","s8.q_otw":"Show that you're open to offers? <span class='sub'>Everyone · recruiters only · no</span>","s8.otw_ph":"everyone / recruiters only / no","s8.q_lang":"What language for the profile? <span class='sub'>Need help with posts — we'll discuss separately</span>","s8.lang_ph":"Russian / English / Polish",
   "s9.title":"Files and last bit","s9.desc":"Tick what you have. Send the files themselves in a separate message after the form.","s9.q_have":"What can you send?","s9.opt1":"Good photo (portrait; for a business — photos of work, team, product)","s9.opt2":"Logo","s9.opt3":"Diplomas, certificates","s9.opt4":"Photos, screenshots or video of your work","s9.q_extra":"Anything important we didn't ask?",
   "ui.warn":"⚠️ Don't close the page until you press “Send”. Otherwise your answers won't be saved and you'll have to start over.","ui.submit":"Send the form","ui.sending":"Sending…","ui.privacy":"Answers go straight to Tatsiana's inbox. Shared with no one else.","ui.menu":"Sections",
-  "nav.portfolio":"Interactive Portfolio","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Portfolio Showroom","nav.links":"All links",
+  "nav.hint":"Live examples of the work — open any of them, the form stays open:","nav.portfolio":"Interactive Portfolio","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Portfolio Showroom","nav.links":"All links",
   "done.h2":"Thank you! Form sent","done.p":"I'll review your answers and come back with a draft. Please send files (photo, logo, diplomas) in a separate message.",
   "err.required":"Please fill in the required fields (✦). Remaining: ","err.fail":"Couldn't send. Check your connection and try again — or email "
  },
@@ -539,7 +546,7 @@ var T = {
   "s8.title":"LinkedIn","s8.q_kw":"Po jakich słowach mają Cię znajdować? <span class='sub'>Np. „księgowa”, „projektant wnętrz”, „prawnik od nieruchomości”</span>","s8.q_markets":"Z jakich krajów mają Cię znajdować? Szukasz pracy zdalnej?","s8.markets_ph":"Polska, cała Europa, zdalnie","s8.q_otw":"Pokazywać, że jesteś otwarty/a na oferty? <span class='sub'>Wszystkim · tylko rekruterom · nie</span>","s8.otw_ph":"wszystkim / tylko rekruterom / nie","s8.q_lang":"W jakim języku prowadzić profil? <span class='sub'>Potrzebna pomoc z postami — omówimy osobno</span>","s8.lang_ph":"rosyjski / angielski / polski",
   "s9.title":"Pliki i na koniec","s9.desc":"Zaznacz, co masz. Same pliki prześlij osobną wiadomością po ankiecie.","s9.q_have":"Co możesz przesłać?","s9.opt1":"Dobre zdjęcie (portret; dla firmy — zdjęcia prac, zespołu, produktu)","s9.opt2":"Logo","s9.opt3":"Dyplomy, certyfikaty","s9.opt4":"Zdjęcia, zrzuty ekranu lub wideo prac","s9.q_extra":"Coś ważnego, o co nie zapytaliśmy?",
   "ui.warn":"⚠️ Nie zamykaj strony, dopóki nie klikniesz „Wyślij”. Inaczej odpowiedzi nie zostaną zapisane i trzeba będzie zaczynać od nowa.","ui.submit":"Wyślij formularz","ui.sending":"Wysyłam…","ui.privacy":"Odpowiedzi trafiają prosto na skrzynkę Tatsiany. Nikomu więcej nie są przekazywane.","ui.menu":"Sekcje",
-  "nav.portfolio":"Interaktywne portfolio","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Showroom portfolio","nav.links":"Wszystkie linki",
+  "nav.hint":"Żywe przykłady prac — otwórz dowolny, formularz zostanie otwarty:","nav.portfolio":"Interaktywne portfolio","nav.summary":"Executive Summary","nav.pitch":"High Pitch","nav.fitting":"Showroom portfolio","nav.links":"Wszystkie linki",
   "done.h2":"Dziękujemy! Formularz wysłany","done.p":"Przejrzę odpowiedzi i wrócę ze szkicem. Pliki (zdjęcie, logo, dyplomy) prześlij proszę osobną wiadomością.",
   "err.required":"Uzupełnij proszę pola obowiązkowe (✦). Pozostało: ","err.fail":"Nie udało się wysłać. Sprawdź połączenie i spróbuj ponownie — albo napisz na "
  }
